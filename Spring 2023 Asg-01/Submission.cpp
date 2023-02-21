@@ -58,7 +58,7 @@ char *removeSentence(char *Para, char *input) {
       if (i < start) {
         result[i] = Para[i];
       } else {
-        result[i] = Para[i + end - start + 1];
+        result[i] = Para[i + end - start + 2];
       }
     }
     // cout << "\nres:" << result;
@@ -162,8 +162,53 @@ int pascal(int row, int col) {
 }
 
 void PrintPattern1(int start, int end) {}
+// Program to print the given pattern
 
-void printHollowDiamond(int n) {}
+void print_stars(int asterisk) {
+  if (asterisk == 0)
+    return;
+  cout << "* ";
+  print_stars(asterisk - 1);
+}
+void print_space(int space) {
+  if (space == 0)
+    return;
+  cout << " "
+       << " ";
+  print_space(space - 1);
+}
+
+// function to print the upper-half of the pattern
+void printHollowDiamond_upper(int n, int num) {
+  // base case
+  if (n == 0)
+    return;
+  print_stars(n);
+  print_space(2 * (num - n) + 1);
+  print_stars(n);
+  cout << endl;
+
+  // recursively calling pattern_upper()
+  printHollowDiamond_upper(n - 1, num);
+}
+
+// function to print the lower-half of the pattern
+void printHollowDiamond_lower(int n, int num) {
+  // base case
+  if (n == 0)
+    return;
+  print_stars(num - n + 1);
+  print_space(2 * n - 1);
+  print_stars(num - n + 1);
+  cout << endl;
+
+  // recursively calling pattern_lower()
+  printHollowDiamond_lower(n - 1, num);
+}
+void printHollowDiamond(int n) {
+  printHollowDiamond_upper(n, n);
+  printHollowDiamond_lower(n - 1, n);
+}
 
 void PrintPattern2(int, int) {}
 

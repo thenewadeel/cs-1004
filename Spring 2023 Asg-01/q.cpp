@@ -62,8 +62,11 @@ int main() {
   // }
 
   // Pascal testing
-  int r = 4, c = 2;
-  cout << "Pascal Fn for Row:" << r << ", Col:" << c << endl;
-  cout << "Pascal Output:" << pascal(r, c);
+  // int r = 4, c = 2;
+  // cout << "Pascal Fn for Row:" << r << ", Col:" << c << endl;
+  // cout << "Pascal Output:" << pascal(r, c);
+
+  //  Pattern test
+  printHollowDiamond(4);
   return 0;
 }

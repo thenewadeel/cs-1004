@@ -67,6 +67,7 @@ int main() {
   // cout << "Pascal Output:" << pascal(r, c);
 
   //  Pattern test
-  printHollowDiamond(4);
+  // printHollowDiamond(3);
+  PrintPattern2(10, 10);
   return 0;
 }

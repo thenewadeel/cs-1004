@@ -111,6 +111,28 @@ ConvertToDynamic(char arr[], int x, int y,
 
 bool MatchString3DArray(char ***mat, int xSize, int ySize, int zSize,
                         char *input, int **&resultMat, int &colSize) {
+  // Three pointers to traverse the Matrix
+  int i = 0, j = 0, k = 0;
+  int lengthInput = getLength(input);
+  // while (i < xSize) {
+  //   if (Str[i] == substr[0]) {
+  //     start = i;
+  //     while (j < lengthInput) {
+  //       if (Str[(i + j) % lengthStr] == substr[j]) {
+  //         j++;
+  //         continue;
+  //       } else
+  //         break;
+  //     }
+  //     // cout << "J is:" << j;
+  //     if (j == lengthInput) {
+  //       end = (i + j - 1) % lengthStr;
+  //       return true;
+  //     }
+  //   }
+  //   i++;
+  // }
+  return false;
   // 3d Arrays in C
   // https://iq.opengenus.org/3d-array-in-c/
 }
@@ -164,18 +186,18 @@ int pascal(int row, int col) {
 void PrintPattern1(int start, int end) {}
 // Program to print the given pattern
 
-void print_stars(int asterisk) {
-  if (asterisk == 0)
+void print_stars(int n) {
+  if (n == 0)
     return;
   cout << "* ";
-  print_stars(asterisk - 1);
+  print_stars(n - 1);
 }
-void print_space(int space) {
-  if (space == 0)
+void print_space(int n) {
+  if (n == 0)
     return;
   cout << " "
        << " ";
-  print_space(space - 1);
+  print_space(n - 1);
 }
 
 // function to print the upper-half of the pattern
@@ -209,8 +231,64 @@ void printHollowDiamond(int n) {
   printHollowDiamond_upper(n, n);
   printHollowDiamond_lower(n - 1, n);
 }
-
-void PrintPattern2(int, int) {}
+void print_hash(int n) {
+  if (n == 0)
+    return;
+  cout << "# ";
+  print_hash(n - 1);
+}
+void print_dashes(int n) {
+  if (n == 0)
+    return;
+  cout << "- ";
+  print_dashes(n - 1);
+}
+void print_symbol_inc(int n, int limit, char *string) {
+  if (n >= limit)
+    return;
+  cout << string;
+  print_symbol_inc(n + 1, limit, string);
+}
+void print_symbol_dec(int n, int limit, char *string) {
+  if (n <= limit)
+    return;
+  cout << string;
+  print_symbol_dec(n - 1, limit, string);
+}
+void pattern2_line(int start, int level, int total_levels) {
+  // cout << "start:" << start << ", lvl:" << level << ", total:" <<
+  // total_levels;
+  print_symbol_inc(0, total_levels - level, "  ");
+  print_symbol_inc(0, 1, "# ");
+  print_symbol_inc(0, 1, "- ");
+  print_symbol_inc(0, start - 1 - level, "- ");
+  print_symbol_inc(0, 2 * level, "* ");
+  cout << "| ";
+  print_symbol_inc(0, 2 * level, "* ");
+  print_symbol_inc(0, start - 1 - level, "- ");
+  print_symbol_inc(0, 1, "- ");
+  print_symbol_inc(0, 1, "# ");
+  cout << endl;
+}
+void pattern2_upper(int start, int n, int levels) {
+  if (n >= levels)
+    return;
+  pattern2_line(start, n, levels);
+  pattern2_upper(start, n + 1, levels);
+}
+void pattern2_lower(int start, int n, int levels) {
+  if (n >= levels)
+    return;
+  pattern2_line(start, levels - n, levels);
+  pattern2_lower(start, n + 1, levels);
+}
+void PrintPattern2(int start, int levels) {
+  //    # - - | - - #
+  //  # - * * | * * - #
+  //    # - - | - - #
+  pattern2_upper(start, 0, levels);
+  pattern2_lower(start, 2, levels);
+}
 
 void startSnakeGame() // controller of the game
 {}

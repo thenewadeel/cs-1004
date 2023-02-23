@@ -14,7 +14,7 @@ int getLength(char *str) {
 bool FindSubString(char *Str, char *substr, int &start, int &end) {
   int lengthStr = getLength(Str);
   int lengthSubStr = getLength(substr);
-  if (lengthSubStr < lengthStr) {
+  if (lengthSubStr <= lengthStr) {
     start = 0, end = 0;
     // Two pointers to traverse the arrays
     int i = 0, j = 0;
@@ -111,33 +111,96 @@ ConvertToDynamic(char arr[], int x, int y,
 
 bool MatchString3DArray(char ***mat, int xSize, int ySize, int zSize,
                         char *input, int **&resultMat, int &colSize) {
-  // Three pointers to traverse the Matrix
-  int i = 0, j = 0, k = 0;
-  int lengthInput = getLength(input);
-  // while (i < xSize) {
-  //   if (Str[i] == substr[0]) {
-  //     start = i;
-  //     while (j < lengthInput) {
-  //       if (Str[(i + j) % lengthStr] == substr[j]) {
-  //         j++;
-  //         continue;
-  //       } else
-  //         break;
-  //     }
-  //     // cout << "J is:" << j;
-  //     if (j == lengthInput) {
-  //       end = (i + j - 1) % lengthStr;
-  //       return true;
-  //     }
-  //   }
-  //   i++;
-  // }
+  int found = 0;
+  int inputLength = 0;
+  while (input[inputLength] != '\0') {
+    inputLength++;
+  }
+
+  int **temp_resultMat = new int *[inputLength];
+  resultMat = new int *[inputLength];
+  for (int i = 0; i < inputLength; i++) {
+    temp_resultMat[i] = new int[3];
+    resultMat[i] = new int[3];
+  }
+
+  int temp;
+  cout << "Chk";
+  for (int i = 0; i < xSize; i++) {
+    for (int j = 0; j < ySize; j++) {
+      for (int k = 0; k < zSize; k++) {
+        if (mat[i][j][k] == input[0])
+          for (temp = 0; temp < inputLength; temp++) {
+            if (mat[i][j][temp] == input[temp]) {
+              temp_resultMat[temp][0] = i;
+              temp_resultMat[temp][1] = j;
+              temp_resultMat[temp][2] = temp;
+              found = 1;
+              continue;
+            } else {
+              found = 0;
+              break;
+            }
+          }
+        if (!found) {
+          for (temp = 0; temp < inputLength; temp++) {
+            if (mat[i][temp][k] == input[temp]) {
+              temp_resultMat[temp][0] = i;
+              temp_resultMat[temp][1] = temp;
+              temp_resultMat[temp][2] = k;
+              found = 1;
+              continue;
+            } else {
+              found = 0;
+              break;
+            }
+          }
+        }
+        if (!found) {
+          for (temp = 0; temp < inputLength; temp++) {
+            if (mat[temp][j][k] == input[temp]) {
+              temp_resultMat[temp][0] = temp;
+              temp_resultMat[temp][1] = j;
+              temp_resultMat[temp][2] = k;
+              found = 1;
+              continue;
+            } else {
+              found = 0;
+              break;
+            }
+          }
+        }
+        if (found) {
+          for (int i = 0; i < 3; i++)
+            for (int j = 0; j < inputLength; j++) {
+              resultMat[j][i] = temp_resultMat[i][j];
+            }
+
+          int c, i1;
+          colSize = c;
+          cout << "Found " << input << ", at ";
+          for (int i = 0; i < colSize; i++) {
+            cout << "I" << i << ":" << resultMat[0][i] << ", "
+                 << resultMat[1][i] << ", " << resultMat[2][i] << "; ";
+          }
+          return true;
+        }
+      }
+    }
+  }
   return false;
-  // 3d Arrays in C
-  // https://iq.opengenus.org/3d-array-in-c/
 }
 
-void DeleteArray(char ***&arr, int x, int y, int z) {}
+void DeleteArray(char ***&arr, int x, int y, int z) {
+  for (int i = 0; i < x; i++) {
+    for (int j = 0; j < y; j++) {
+      delete[] arr[i][j];
+    }
+    delete[] arr[i];
+  }
+  delete[] arr;
+  arr = nullptr;
+}
 
 bool isperfectNumber(int n) {
   // To store sum of divisors
@@ -174,7 +237,7 @@ int findVowels(char *str) {
 
 int pascal(int row, int col) {
   // http://proprogrammershub.blogspot.com/2015/05/pascal-triangle-in-c-using-recursive.html
-  if (col == 1) {
+  if (col == 0) {
     return 1;
   } else if (col == row) {
     return 1;
@@ -182,9 +245,28 @@ int pascal(int row, int col) {
     return pascal(row - 1, col) + pascal(row - 1, col - 1);
   }
 }
-
-void PrintPattern1(int start, int end) {}
-// Program to print the given pattern
+void print_symbol_inc(int n, int limit, char *string) {
+  if (n >= limit)
+    return;
+  cout << string;
+  print_symbol_inc(n + 1, limit, string);
+}
+void print_symbol_dec(int n, int limit, char *string) {
+  if (n <= limit)
+    return;
+  cout << string;
+  print_symbol_dec(n - 1, limit, string);
+}
+void pattern1_line(int start, int level, int total_levels) {
+  cout << "start:" << start << ", lvl:" << level << ", total:" << total_levels;
+  //   if (n >= levels)
+  //   return;
+  // pattern1_line(start, n, levels);
+  // pattern2_upper(start, n + 1, levels);
+}
+void PrintPattern1(int start, int end) {
+  // Program to print the given pattern
+}
 
 void print_stars(int n) {
   if (n == 0)
@@ -231,30 +313,7 @@ void printHollowDiamond(int n) {
   printHollowDiamond_upper(n, n);
   printHollowDiamond_lower(n - 1, n);
 }
-void print_hash(int n) {
-  if (n == 0)
-    return;
-  cout << "# ";
-  print_hash(n - 1);
-}
-void print_dashes(int n) {
-  if (n == 0)
-    return;
-  cout << "- ";
-  print_dashes(n - 1);
-}
-void print_symbol_inc(int n, int limit, char *string) {
-  if (n >= limit)
-    return;
-  cout << string;
-  print_symbol_inc(n + 1, limit, string);
-}
-void print_symbol_dec(int n, int limit, char *string) {
-  if (n <= limit)
-    return;
-  cout << string;
-  print_symbol_dec(n - 1, limit, string);
-}
+
 void pattern2_line(int start, int level, int total_levels) {
   // cout << "start:" << start << ", lvl:" << level << ", total:" <<
   // total_levels;

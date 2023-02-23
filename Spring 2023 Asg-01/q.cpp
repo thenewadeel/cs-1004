@@ -31,35 +31,38 @@ int main() {
   // cout << "Processed:\n" << removeSentence(Para, input);
 
   // 3d Array testing
-  // int x = 3, y = 3, z = 4;
-  // char ***M = ConvertToDynamic("sbtaicztieahrnltagtsjvehfyf", x, y, z);
-  // bool headingX, headingY, headingZ;
-  // headingX = headingY = headingZ = true;
-  // for (int i = 0; i < x; i++) {
-  //   if (headingX) {
-  //     cout << "-----X:" << i << "-----" << endl;
-  //   }
-  //   for (int j = 0; j < y; j++) {
-  //     if (headingZ) {
-  //       headingZ = false;
-  //       cout << "Z:  "
-  //            << "|0|1|2|3|4|5" << endl;
-  //     }
-  //     for (int k = 0; k <= z; k++) {
-  //       if (headingY) {
-  //         headingY = false;
-  //         cout << "Y:" << j << " ";
-  //       }
-  //       // Print values of the
-  //       // memory blocks created
-  //       cout << "|" << M[i][j][k];
-  //     }
-  //     cout << endl;
-  //     headingY = true;
-  //   }
-  //   // cout << endl;
-  //   // headingX = true;
-  // }
+  int x = 3, y = 3, z = 4;
+  char ***M = ConvertToDynamic("sbtaicztieahrnltagtsjvehfyf", x, y, z);
+  bool headingX, headingY, headingZ;
+  headingX = headingY = headingZ = true;
+  for (int i = 0; i < x; i++) {
+    if (headingX) {
+      cout << "-----X:" << i << "-----" << endl;
+    }
+    for (int j = 0; j < y; j++) {
+      if (headingZ) {
+        headingZ = false;
+        cout << "Z:  "
+             << "|0|1|2|3|4|5" << endl;
+      }
+      for (int k = 0; k <= z; k++) {
+        if (headingY) {
+          headingY = false;
+          cout << "Y:" << j << " ";
+        }
+        // Print values of the
+        // memory blocks created
+        cout << "|" << M[i][j][k];
+      }
+      cout << endl;
+      headingY = true;
+    }
+    // cout << endl;
+    // headingX = true;
+  }
+  int col, **res;
+  cout << "ddd";
+  MatchString3DArray(M, x, y, z, "tag", res, col);
 
   // Pascal testing
   // int r = 4, c = 2;
@@ -68,6 +71,7 @@ int main() {
 
   //  Pattern test
   // printHollowDiamond(3);
-  PrintPattern2(10, 10);
+  // PrintPattern2(3, 3);
+  // PrintPattern1(1, 10);
   return 0;
 }

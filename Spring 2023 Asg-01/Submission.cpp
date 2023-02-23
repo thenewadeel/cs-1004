@@ -1,4 +1,6 @@
+#include <cstdlib>
 #include <iostream>
+
 using namespace std;
 // Helper function to check the length of a string array
 int getLength(char *str) {
@@ -129,7 +131,7 @@ bool MatchString3DArray(char ***mat, int xSize, int ySize, int zSize,
   for (int i = 0; i < xSize; i++) {
     for (int j = 0; j < ySize; j++) {
       for (int k = 0; k < zSize; k++) {
-        if (mat[i][j][k] == input[0])
+        if ((mat[i][j][k] == input[0]))
           for (temp = 0; temp < inputLength; temp++) {
             if (mat[i][j][temp] == input[temp]) {
               temp_resultMat[temp][0] = i;
@@ -170,6 +172,23 @@ bool MatchString3DArray(char ***mat, int xSize, int ySize, int zSize,
             }
           }
         }
+        // // reverse gear
+        // if (!found) {
+        //   for (temp = 0; temp < inputLength; temp++) {
+        //     if (((j - temp) < ySize) && ((j - temp) >= 0))
+        //       // cout << "Rev[i,j,k,temp]:" << i << j << k << temp << endl;
+        //       if (mat[i][j - temp][k] == input[temp]) {
+        //         temp_resultMat[temp][0] = i;
+        //         temp_resultMat[temp][1] = temp;
+        //         temp_resultMat[temp][2] = k;
+        //         found = 1;
+        //         continue;
+        //       } else {
+        //         found = 0;
+        //         break;
+        //       }
+        //   }
+        // }
         if (found) {
           for (int i = 0; i < 3; i++)
             for (int j = 0; j < inputLength; j++) {
@@ -348,6 +367,105 @@ void PrintPattern2(int start, int levels) {
   pattern2_upper(start, 0, levels);
   pattern2_lower(start, 2, levels);
 }
-
+void gameHeader() {
+  system("clear");
+  cout << "==============================================================="
+       << endl;
+  cout << "======== Welcome to Snakes & Ladders 2023 ====================="
+       << endl;
+  cout << "==============================================================="
+       << endl;
+}
+int showMenu() {
+  int input;
+  do {
+    gameHeader();
+    cout << "\n\n\t Main Game Menu :" << endl;
+    cout << "\n\t\t 1. Play!" << endl;
+    cout << "\t\t 2. Rules" << endl;
+    cout << "\t\t 0. Exit" << endl;
+    cout << "\n\t Your Choice: ";
+    cin >> input;
+  } while (input < 0 || input > 2);
+  return input;
+}
+int showRules() {
+  int input;
+  // do {
+  gameHeader();
+  cout
+      << " In order to start You need a six on the dice." << endl
+      << " Once the game is started wait for key press before second player "
+         "turn."
+      << endl
+      << " Game will go on until one player wins the game." << endl
+      << " In case you land on a snake head, you will come down to its tail."
+      << endl
+      << " In case you land on the bottom of the leader it will climb the "
+         "ladder."
+      << endl
+      << " First to reach the end Wins!!!";
+  cin >> input;
+  return input;
+}
+void generateSnakes(int *snakes, int range, int n = 10) {
+  snakes = new int[n];
+  for (int i = 0; i < n; i++) {
+    snakes[i] = rand() % range;
+  }
+}
+void snakeBoardCreation(int **board, int *snakes, int *ladders, int M = 10,
+                        int N = 10) {
+  board = new int *[M];
+  for (int i = 0; i < M; i++) {
+    board[M] = new int[N];
+  }
+  generateSnakes(snakes, M * N);
+}
+void displayBoard(int **board, int *playerPositions, int *snakes, int *ladders,
+                  int M = 10, int N = 10) {
+  gameHeader();
+  for (int i = 0; i < M; i++) {
+    for (int j = 0; j < N; j++) {
+      cout << "|";
+      // for(int i=0;i<)
+      // if(snakes)
+      cout << 10 * i + j;
+      cout << "|";
+    }
+    cout << endl;
+  }
+}
 void startSnakeGame() // controller of the game
-{}
+{
+  while (1) {
+    int input = showMenu();
+    int **board;
+    int playerPositions[2] = {5, 12};
+    int *snakes;
+    int *ladders;
+    int input2;
+    switch (input) {
+    case 1:
+      // main game play
+      snakeBoardCreation(board, snakes, ladders);
+      displayBoard(board, playerPositions, snakes, ladders);
+      cout << "\n\tRolling Dice: " << 1 + rand() % 7;
+      cin >> input2;
+      break;
+    case 2:
+      // instructions/ rules
+      showRules();
+      break;
+    case 0:
+      cout << "\nAdios!\n";
+      return;
+      break;
+    }
+  };
+  // snakeBoardCreation();
+  // displayBoard();
+  // playdice();
+  // checkSnakeHead();
+  // checkLeaderFoot();
+}

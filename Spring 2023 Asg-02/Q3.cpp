@@ -14,20 +14,22 @@ int getLength(char *str) {
 class BinaryStore {
   int ByteSize = 8, filledAddresses, lengthMax;
   // add suitable member attributes
-  char *addresses, *values;
+  char **addresses, **values;
 
 public:
   // constructor which creates the store of length len.
   BinaryStore(int len = 16) {
     lengthMax = len;
     filledAddresses = 0;
-    addresses = new char[len];
-    values = new char[len];
+    addresses = new char *[len];
+    values = new char *[len];
   }
   // add a new address in the list of Binary store.
   void add_Address(char *s) {
     if (filledAddresses < lengthMax) {
-      addresses[filledAddresses++] = *s;
+      addresses[filledAddresses++] = s;
+      cout << "Address(" << s << ") added, filled/total:" << filledAddresses
+           << "/" << lengthMax;
     }
   }
   // add the byte at newly added address
@@ -39,16 +41,16 @@ public:
     int i = 0;
     bool found = 0;
     for (i = 0; i < filledAddresses; i++) {
-      if (comp_EQUAL(address, (addresses + i))) {
+      if (comp_EQUAL(address, (addresses[i]))) {
         found = 1;
         break;
       }
     }
     if (found) {
-      values[i] = *value;
+      values[i] = value;
     } else {
       add_Address(address);
-      values[filledAddresses] = *value;
+      values[filledAddresses] = value;
     }
   }
   // Get function will retrieve the byte at a give address ,
@@ -56,26 +58,34 @@ public:
     int i = 0;
     bool found = 0;
     for (i = 0; i < filledAddresses; i++) {
-      if (comp_EQUAL(address, (addresses + i))) {
+      if (comp_EQUAL(address, (addresses[i]))) {
         found = 1;
         break;
       }
     }
     if (found) {
-      return values + i;
+      return values[i];
     } else
       return "Not Found";
   }
   // return the BinaryStore as character dynamic array.
   char *ToString() {
-    char *s = new char[lengthMax * 20];
+    int dimension = lengthMax * 20;
+    // cout << "Dim:" << dimension;
+    // cout << "\nAdds(n):" << filledAddresses;
+    char *s = new char[dimension];
     int k = 0;
     for (int i = 0; i < filledAddresses; i++) {
-      char *address = addresses + i;
+      char *address = addresses[i];
+      cout << "\nAd:" << address;
       int address_Length = getLength(address);
+      // cout << "\nAdds(l):" << address_Length;
       for (int j = 0; j < address_Length; j++) {
-        s[i + j] = address[j];
+        s[i + j + k] = (address[j] != '\0') ? address[j] : ' ';
+        cout << "\nijk:" << i + j + k;
+        cout << "s:" << s;
       }
+      k += address_Length - 1;
     }
     return s;
   }
@@ -85,19 +95,24 @@ public:
   //  comp_EQUAL, comp_AND, and comp_OR function will take two strings as input
   //  parameters and given the binary equivalent in form of string.
   bool comp_EQUAL(char *a, char *b) {
+    // cout << "\nComparing " << a << " & " << b;
     int lengthA = getLength(a);
     int lengthB = getLength(b);
     if (lengthA == lengthB) {
       for (int i = 0; i < lengthA; i++) {
+        // cout << "\nCharCheck:" << a[i] << "/" << b[i] << ":" << (a[i] ==
+        // b[i]);
         if (a[i] == b[i]) {
           continue;
         } else {
+          // cout << "NOPE";
           return false;
         }
-        return true;
       }
-    } else
-      return false;
+      // cout << "YAY";
+      return true;
+    }
+    // cout << "NOPE";
     return false;
   }
   char *comp_AND(char *a, char *b) {
@@ -131,6 +146,15 @@ private:
 };
 int main() {
   BinaryStore b(3);
+  b.add_Address("123");
+  b.set_Byte("123", "ewqweq");
+  cout << "\nRetrieved:" << b.Get("123");
+  b.add_Address("x0");
+  b.set_Byte("x0", "ewqweq");
+  cout << "\nRetrieved:" << b.Get("x0");
+  b.add_Address("Q");
+  b.set_Byte("Q", "ewqweq");
+  cout << "\nRetrieved:" << b.Get("qw");
   // cout << "a:" << b.comp_EQUAL(" ", " ");
   cout << "a:" << b.ToString();
 }

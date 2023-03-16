@@ -10,6 +10,38 @@ int getLength(char *str) {
   }
   return 0;
 }
+char *fill(char *tgt, char c, int len = 0) {
+  int lengthTgt;
+  if (len == 0)
+    lengthTgt = getLength(tgt);
+  else
+    lengthTgt = len;
+  char *result = new char[lengthTgt];
+  for (int i = 0; i < lengthTgt; i++) {
+    result[i] = c;
+  }
+  return result;
+}
+char *concat(char *a, char *b) {
+  int lengthA = getLength(a);
+  int lengthB = getLength(b);
+  char *result = new char[lengthA + lengthB];
+  for (int i = 0; i < lengthA; i++) {
+    result[i] = a[i];
+  }
+  for (int i = 0; i < lengthB; i++) {
+    result[lengthA + i] = b[i];
+  }
+  // cout << endl << a << " + " << b << " = " << result;
+  return result;
+}
+char *push_left(char *tgt, char *load) {
+  int lengthTgt = getLength(tgt);
+  int lengthLoad = getLength(load);
+  // cout << endl << tgt << " < " << load; //<< " = " << result;
+  char *result = new char[lengthTgt + lengthLoad];
+  return concat(load, tgt);
+}
 
 class BinaryStore {
   int ByteSize = 8, filledAddresses, lengthMax;
@@ -91,7 +123,58 @@ public:
   }
   // ADD function will take two strings as input parameters and given the binary
   // equivalent in form of string.
-  char *Add(char *a, char *b) { ; }
+  char *Add(char *a, char *b) {
+    // If the length of string A is greater than the length
+    // of B then just swap the string by calling the
+    // same function and make sure to return the function
+    int lengthA = getLength(a);
+    int lengthB = getLength(b);
+    if (lengthA > lengthB)
+      return Add(b, a);
+    // Calculating the difference between the length of the
+    // two strings.
+    int diff = lengthB - lengthA;
+    char *res;
+    char carry = '0';
+
+    for (int i = lengthA - 1; i >= 0; i--) {
+      // This condition solves 110 111 possible cases
+      if (a[i] == '1' && b[i] == '1') {
+        if (carry == '1')
+          res = push_left(res, "1"), carry = '1';
+        else
+          res = push_left(res, "0"), carry = '1';
+        // res.push_back('0'), carry = '1';
+      }
+      // This condition solves 000 001 possible cases
+      else if (a[i] == '0' && b[i] == '0') {
+        if (carry == '1')
+          res = push_left(res, "1"), carry = '0';
+        // res.push_back('1'), carry = '0';
+        else
+          res = push_left(res, "0"), carry = '0';
+        // res.push_back('0'), carry = '0';
+      }
+      // This condition solves 100 101 010 011 possible cases
+      else if (a[i] != b[i]) {
+        if (carry == '1')
+          res = push_left(res, "0"), carry = '1';
+        // res.push_back('0'), carry = '1';
+        else
+          res = push_left(res, "1"), carry = '0';
+        // res.push_back('1'), carry = '0';
+      }
+    }
+
+    // If at the end there is carry then just add it to the
+    // result
+    if (carry == '1')
+      res = push_left(res, "1"); //, carry = '0';
+    // cout << endl
+    //  << a << "+" << b << "=" << res << "(" << getLength(res) << ")" << endl;
+    res[8] = '\0';
+    return res;
+  }
   //  comp_EQUAL, comp_AND, and comp_OR function will take two strings as input
   //  parameters and given the binary equivalent in form of string.
   bool comp_EQUAL(char *a, char *b) {
@@ -174,10 +257,24 @@ public:
 //   cout << "\nRetrieved:" << b.Get("x0");
 //   b.add_Address("0");
 //   b.set_Byte("0", "ewqweq");
-//   cout << "\nRetrieved:" << b.Get("qw");
-//   // cout << "a:" << b.comp_EQUAL(" ", " ");
-//   cout << "a:" << b.ToString();
+//   // cout << "\nRetrieved:" << b.Get("qw");
+//   // // cout << "a:" << b.comp_EQUAL(" ", " ");
+//   // cout << "a:" << b.ToString();
 
-//   cout << "\n 101 && 111 :" << b.comp_AND("10", "111");
+//   // cout << "\n 101 && 111 :" << b.comp_AND("10", "111");
 //   // cout << "\n :" << b.char_AND('1');
+//   // char *t = "]";
+//   // cout << "\nfilling:"
+//   //      << "t"
+//   //      << " ->" << fill("t", '@');
+//   // cout << "\nfilling:"
+//   //      << ""
+//   //      << " ->" << fill("", '@', 10);
+//   // cout << "Concat: asd+123" << concat("a s d", "");
+//   // cout << "Push_left: asd 123 -> " << push_left("asd", "x");
+// }
+// int main() {
+//   cout << endl << "l(asd):" << getLength("asd");
+//   cout << endl << "Push_left: asd 123 -> " << push_left("asd", "x");
+//   cout << endl << "l(res):" << getLength(push_left("asd", ""));
 // }

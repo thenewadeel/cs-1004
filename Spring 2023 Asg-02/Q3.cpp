@@ -116,22 +116,42 @@ public:
     return false;
   }
   char *comp_AND(char *a, char *b) {
-    char *result = "asd";
+    char *result = new char[10];
+    int lengthA = getLength(a);
+    for (int i = lengthA - 1; i >= 0; i--) {
+      result[i] = char_AND(a[i], b[i]);
+    }
     return result;
   }
-  char *comp_OR(char *a, char *b) { ; }
-  char *comp_NOT(char *a, char *b) { ; }
-  char *comp_NOT(char *a) { ; }
+  char *comp_OR(char *a, char *b) {
+    char *result = new char[10];
+    int lengthA = getLength(a);
+    for (int i = lengthA - 1; i >= 0; i--) {
+      result[i] = char_OR(a[i], b[i]);
+    }
+    return result;
+  }
+  char *comp_NOT(char *a, char *b) { return comp_NOT(a); }
+  char *comp_NOT(char *a) {
+    char *result = new char[10];
+    int lengthA = getLength(a);
+    for (int i = lengthA - 1; i >= 0; i--) {
+      // cout << i << ":" << result[i] << ":" << a[i] << ":" << char_NOT(a[i])
+      //  << endl;
+      result[i] = char_NOT(a[i]);
+    }
+    return result;
+  }
   ~BinaryStore() { ; }
 
-private:
-  char char_OR(char a, char b) {
+  // private:
+  char char_OR(char a, char b = '0') {
     if (a == '1' || b == '1')
       return '1';
     else
       return '0';
   }
-  char char_AND(char a, char b) {
+  char char_AND(char a, char b = '0') {
     if (a == '1' && b == '1')
       return '1';
     else
@@ -146,15 +166,18 @@ private:
 };
 // int main() {
 //   BinaryStore b(3);
-//   b.add_Address("123");
-//   b.set_Byte("123", "ewqweq");
+//   b.add_Address("101");
+//   b.set_Byte("101", "ewqweq");
 //   cout << "\nRetrieved:" << b.Get("123");
-//   b.add_Address("x0");
-//   b.set_Byte("x0", "ewqweq");
+//   b.add_Address("10");
+//   b.set_Byte("10", "ewqweq");
 //   cout << "\nRetrieved:" << b.Get("x0");
-//   b.add_Address("Q");
-//   b.set_Byte("Q", "ewqweq");
+//   b.add_Address("0");
+//   b.set_Byte("0", "ewqweq");
 //   cout << "\nRetrieved:" << b.Get("qw");
 //   // cout << "a:" << b.comp_EQUAL(" ", " ");
 //   cout << "a:" << b.ToString();
+
+//   cout << "\n 101 && 111 :" << b.comp_AND("10", "111");
+//   // cout << "\n :" << b.char_AND('1');
 // }

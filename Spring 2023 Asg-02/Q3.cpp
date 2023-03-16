@@ -91,7 +91,7 @@ public:
   }
   // ADD function will take two strings as input parameters and given the binary
   // equivalent in form of string.
-  char *Add(char *a, char *b);
+  char *Add(char *a, char *b) { ; }
   //  comp_EQUAL, comp_AND, and comp_OR function will take two strings as input
   //  parameters and given the binary equivalent in form of string.
   bool comp_EQUAL(char *a, char *b) {
@@ -119,9 +119,9 @@ public:
     char *result = "asd";
     return result;
   }
-  char *comp_OR(char *a, char *b);
-  char *comp_NOT(char *a, char *b);
-  char *comp_NOT(char *a);
+  char *comp_OR(char *a, char *b) { ; }
+  char *comp_NOT(char *a, char *b) { ; }
+  char *comp_NOT(char *a) { ; }
   ~BinaryStore() { ; }
 
 private:
@@ -144,17 +144,17 @@ private:
       return '1';
   }
 };
-int main() {
-  BinaryStore b(3);
-  b.add_Address("123");
-  b.set_Byte("123", "ewqweq");
-  cout << "\nRetrieved:" << b.Get("123");
-  b.add_Address("x0");
-  b.set_Byte("x0", "ewqweq");
-  cout << "\nRetrieved:" << b.Get("x0");
-  b.add_Address("Q");
-  b.set_Byte("Q", "ewqweq");
-  cout << "\nRetrieved:" << b.Get("qw");
-  // cout << "a:" << b.comp_EQUAL(" ", " ");
-  cout << "a:" << b.ToString();
-}
+// int main() {
+//   BinaryStore b(3);
+//   b.add_Address("123");
+//   b.set_Byte("123", "ewqweq");
+//   cout << "\nRetrieved:" << b.Get("123");
+//   b.add_Address("x0");
+//   b.set_Byte("x0", "ewqweq");
+//   cout << "\nRetrieved:" << b.Get("x0");
+//   b.add_Address("Q");
+//   b.set_Byte("Q", "ewqweq");
+//   cout << "\nRetrieved:" << b.Get("qw");
+//   // cout << "a:" << b.comp_EQUAL(" ", " ");
+//   cout << "a:" << b.ToString();
+// }

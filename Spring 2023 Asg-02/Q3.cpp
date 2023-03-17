@@ -96,6 +96,7 @@ public:
       }
     }
     if (found) {
+      cout << "Returning(" << address << "):" << values[i];
       return values[i];
     } else
       return "Not Found";

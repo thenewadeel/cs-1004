@@ -1,4 +1,5 @@
 // #include "pch.h"
+#include "Q2.cpp"
 #include <gtest/gtest.h>
 
 // QUESTION 1
@@ -123,226 +124,226 @@
 
 // // QUESTION 2
 
-// TEST(String, Constructors) {
-//   char s[] = "OOP-A02";
-//   String str(s);
-//   ASSERT_EQ(0, strcmp("OOP-A02", str.getdata()));
+TEST(String, Constructors) {
+  char s[] = "OOP-A02";
+  String str(s);
+  ASSERT_EQ(0, strcmp("OOP-A02", str.getdata()));
 
-//   String str1(5);
-//   ASSERT_EQ(0, strcmp("", str1.getdata()));
+  String str1(5);
+  ASSERT_EQ(0, strcmp("", str1.getdata()));
 
-//   String str2(str);
-//   ASSERT_EQ(0, strcmp(str2.getdata(), str.getdata()));
-//   ASSERT_NE(str2.getdata(), str.getdata());
-// }
+  String str2(str);
+  ASSERT_EQ(0, strcmp(str2.getdata(), str.getdata()));
+  ASSERT_NE(str2.getdata(), str.getdata());
+}
 
-// TEST(String, getChar) {
-//   char s[] = "Hello World!";
-//   String str(s);
-//   ASSERT_EQ('o', str.getChar(4));
-//   ASSERT_EQ('\0', str.getChar(12));
+TEST(String, getChar) {
+  char s[] = "Hello World!";
+  String str(s);
+  ASSERT_EQ('o', str.getChar(4));
+  ASSERT_EQ('\0', str.getChar(12));
 
-//   String str1(str);
-//   ASSERT_EQ('H', str.getChar(0));
-// }
+  String str1(str);
+  ASSERT_EQ('H', str.getChar(0));
+}
 
-// TEST(String, isEmpty) {
-//   char st[] = "OOP-A02";
-//   String str(st);
-//   ASSERT_EQ(false, str.isEmpty());
-//   ASSERT_EQ(7, str.length());
+TEST(String, isEmpty) {
+  char st[] = "OOP-A02";
+  String str(st);
+  ASSERT_EQ(false, str.isEmpty());
+  ASSERT_EQ(7, str.length());
 
-//   String str1(5);
-//   ASSERT_EQ(true, str1.isEmpty());
-//   ASSERT_EQ(0, str1.length());
-// }
+  String str1(5);
+  ASSERT_EQ(true, str1.isEmpty());
+  ASSERT_EQ(0, str1.length());
+}
 
-// TEST(String, index_at) {
-//   char st[] = "OOP-Assignment02";
-//   String str(st);
-//   ASSERT_EQ(0, str.index_at('O'));
-//   ASSERT_EQ(2, str.index_at('P'));
-//   ASSERT_EQ(5, str.index_at('s'));
-//   ASSERT_EQ(14, str.index_at('0'));
-//   ASSERT_EQ(-1, str.index_at('F'));
+TEST(String, index_at) {
+  char st[] = "OOP-Assignment02";
+  String str(st);
+  ASSERT_EQ(0, str.index_at('O'));
+  ASSERT_EQ(2, str.index_at('P'));
+  ASSERT_EQ(5, str.index_at('s'));
+  ASSERT_EQ(14, str.index_at('0'));
+  ASSERT_EQ(-1, str.index_at('F'));
 
-//   char st1[] = "Spring 2022";
-//   char t[] = "2022";
-//   String test(t);
-//   string test1(t);
-//   String str1(st1);
-//   ASSERT_EQ(2, str1.index_at("ring"));
-//   ASSERT_EQ(7, str1.index_at(test));
-//   ASSERT_EQ(7, str1.index_at(test1));
-// }
+  char st1[] = "Spring 2022";
+  char t[] = "2022";
+  String test(t);
+  string test1(t);
+  String str1(st1);
+  ASSERT_EQ(2, str1.index_at("ring"));
+  ASSERT_EQ(7, str1.index_at(test));
+  ASSERT_EQ(7, str1.index_at(test1));
+}
 
-// TEST(String, isEqual) {
-//   char st[] = "OOP-Assignment02";
-//   String str(st);
+TEST(String, isEqual) {
+  char st[] = "OOP-Assignment02";
+  String str(st);
 
-//   char t1[] = "OOP", t2[] = "Assignment02", t3[] = "oop assignment02",
-//        t4[] = "OOP-Assignment02";
-//   ASSERT_EQ(false, str.isEqual(t1));
-//   ASSERT_EQ(false, str.isEqual(t2));
-//   ASSERT_EQ(false, str.isEqual(t3));
-//   ASSERT_EQ(true, str.isEqual(t4));
+  char t1[] = "OOP", t2[] = "Assignment02", t3[] = "oop assignment02",
+       t4[] = "OOP-Assignment02";
+  ASSERT_EQ(false, str.isEqual(t1));
+  ASSERT_EQ(false, str.isEqual(t2));
+  ASSERT_EQ(false, str.isEqual(t3));
+  ASSERT_EQ(true, str.isEqual(t4));
 
-//   char st1[] = "Spring 2023";
-//   String str1(st1);
+  char st1[] = "Spring 2023";
+  String str1(st1);
 
-//   char t11[] = "spring 2023", t12[] = "sprIng 2022";
-//   ASSERT_EQ(false, str1.isEqual(t11));
-//   ASSERT_EQ(false, str1.isEqual(t12));
-//   ASSERT_EQ(true, str1.isEqual(st1));
-// }
+  char t11[] = "spring 2023", t12[] = "sprIng 2022";
+  ASSERT_EQ(false, str1.isEqual(t11));
+  ASSERT_EQ(false, str1.isEqual(t12));
+  ASSERT_EQ(true, str1.isEqual(st1));
+}
 
-// TEST(String, append_string) {
-//   char st[] = "Assignment02";
-//   String str(st);
-//   char t1[] = "Ass";
-//   string t2 = "02";
-//   String str1(str);
-//   char t3 = 'g';
-//   str.append_string(t1);
-//   ASSERT_EQ(0, strcmp(str.getdata(), "Assignment02Ass"));
-//   str.append_string(t2);
-//   ASSERT_EQ(0, strcmp(str.getdata(), "Assignment02Ass02"));
-//   str.append_string(str1);
-//   ASSERT_EQ(0, strcmp(str.getdata(), "Assignment02Ass02Assignment02"));
-//   str.append_string(t3);
-//   ASSERT_EQ(0, strcmp(str.getdata(), "Assignment02Ass02Assignment02g"));
-// }
+TEST(String, append_string) {
+  char st[] = "Assignment02";
+  String str(st);
+  char t1[] = "Ass";
+  string t2 = "02";
+  String str1(str);
+  char t3 = 'g';
+  str.append_string(t1);
+  ASSERT_EQ(0, strcmp(str.getdata(), "Assignment02Ass"));
+  str.append_string(t2);
+  ASSERT_EQ(0, strcmp(str.getdata(), "Assignment02Ass02"));
+  str.append_string(str1);
+  ASSERT_EQ(0, strcmp(str.getdata(), "Assignment02Ass02Assignment02"));
+  str.append_string(t3);
+  ASSERT_EQ(0, strcmp(str.getdata(), "Assignment02Ass02Assignment02g"));
+}
 
-// TEST(String, remove_string) {
-//   char st[] = "Spring 2023";
-//   String str(st);
+TEST(String, remove_string) {
+  char st[] = "Spring 2023";
+  String str(st);
 
-//   str.remove_string(' ');
-//   ASSERT_EQ(0, strcmp(str.getdata(), "Spring2023"));
-//   ASSERT_EQ(10, str.length());
+  str.remove_string(' ');
+  ASSERT_EQ(0, strcmp(str.getdata(), "Spring2023"));
+  ASSERT_EQ(10, str.length());
 
-//   string t1 = "ring";
-//   str.remove_string(t1);
-//   ASSERT_EQ(0, strcmp(str.getdata(), "Sp2023"));
-//   ASSERT_EQ(6, str.length());
+  string t1 = "ring";
+  str.remove_string(t1);
+  ASSERT_EQ(0, strcmp(str.getdata(), "Sp2023"));
+  ASSERT_EQ(6, str.length());
 
-//   char t2[] = "20";
-//   str.remove_string(t2);
-//   ASSERT_EQ(0, strcmp(str.getdata(), "Sp23"));
-//   ASSERT_EQ(4, str.length());
+  char t2[] = "20";
+  str.remove_string(t2);
+  ASSERT_EQ(0, strcmp(str.getdata(), "Sp23"));
+  ASSERT_EQ(4, str.length());
 
-//   String str1("Sp");
-//   str.remove_string(str1);
-//   ASSERT_EQ(0, strcmp(str.getdata(), "23"));
-//   ASSERT_EQ(2, str.length());
-// }
+  String str1("Sp");
+  str.remove_string(str1);
+  ASSERT_EQ(0, strcmp(str.getdata(), "23"));
+  ASSERT_EQ(2, str.length());
+}
 
-// TEST(String, assign_string) {
-//   char st[] = "OOP-Assignment02";
-//   String str(st);
+TEST(String, assign_string) {
+  char st[] = "OOP-Assignment02";
+  String str(st);
 
-//   str.assign_string("hello world");
-//   ASSERT_EQ(0, strcmp(str.getdata(), "hello world"));
-//   ASSERT_EQ(11, str.length());
+  str.assign_string("hello world");
+  ASSERT_EQ(0, strcmp(str.getdata(), "hello world"));
+  ASSERT_EQ(11, str.length());
 
-//   string t1 = "Spring2023";
-//   str.assign_string(t1);
-//   ASSERT_EQ(0, strcmp(str.getdata(), "Spring2023"));
-//   ASSERT_EQ(10, str.length());
+  string t1 = "Spring2023";
+  str.assign_string(t1);
+  ASSERT_EQ(0, strcmp(str.getdata(), "Spring2023"));
+  ASSERT_EQ(10, str.length());
 
-//   String str1("OOP-Assignment02");
-//   str.assign_string(str1);
-//   ASSERT_EQ(0, strcmp(str.getdata(), "OOP-Assignment02"));
-//   ASSERT_EQ(16, str.length());
-// }
+  String str1("OOP-Assignment02");
+  str.assign_string(str1);
+  ASSERT_EQ(0, strcmp(str.getdata(), "OOP-Assignment02"));
+  ASSERT_EQ(16, str.length());
+}
 
 // QUESTION 3
-#include "Q3.cpp"
-TEST(BinaryStore, start) {
-  BinaryStore x(3);
-  x.add_Address("0000");
-  x.add_Address("0001");
-  x.add_Address("0010");
+// #include "Q3.cpp"
+// TEST(BinaryStore, start) {
+//   BinaryStore x(3);
+//   x.add_Address("0000");
+//   x.add_Address("0001");
+//   x.add_Address("0010");
 
-  x.set_Byte("0000", "01010101");
-  x.set_Byte("0010", "01010100");
+//   x.set_Byte("0000", "01010101");
+//   x.set_Byte("0010", "01010100");
 
-  EXPECT_EQ(strcmp(x.Get("0000"), "01010101"), 0);
-  //   EXPECT_EQ(x.Get("0001"), NULL);
-  EXPECT_EQ(strcmp(x.Get("0010"), "01010100"), 0);
-}
+//   EXPECT_EQ(strcmp(x.Get("0000"), "01010101"), 0);
+//   //   EXPECT_EQ(x.Get("0001"), NULL);
+//   EXPECT_EQ(strcmp(x.Get("0010"), "01010100"), 0);
+// }
 
-TEST(BinaryStore, start1) {
-  BinaryStore x(2);
-  x.add_Address("0000");
-  x.add_Address("0001");
+// TEST(BinaryStore, start1) {
+//   BinaryStore x(2);
+//   x.add_Address("0000");
+//   x.add_Address("0001");
 
-  x.set_Byte("0000", "01010101");
-  x.set_Byte("0010", "01010100");
+//   x.set_Byte("0000", "01010101");
+//   x.set_Byte("0010", "01010100");
 
-  EXPECT_EQ(strcmp(x.Get("0000"), "01010101"), 0);
-  EXPECT_EQ(strcmp(x.Get("0010"), "01010100"), 0);
+//   EXPECT_EQ(strcmp(x.Get("0000"), "01010101"), 0);
+//   EXPECT_EQ(strcmp(x.Get("0010"), "01010100"), 0);
 
-  x.set_Byte("0000", "01111110");
-  EXPECT_EQ(strcmp(x.Get("0000"), "01111110"), 0);
-}
+//   x.set_Byte("0000", "01111110");
+//   EXPECT_EQ(strcmp(x.Get("0000"), "01111110"), 0);
+// }
 
-TEST(BinaryStore, Add) {
-  BinaryStore x;
-  char byt[] = "00001110";
-  char byt2[] = "01110000";
-  EXPECT_EQ(0, strcmp(x.Add(byt, byt2), "01111110"));
-}
+// TEST(BinaryStore, Add) {
+//   BinaryStore x;
+//   char byt[] = "00001110";
+//   char byt2[] = "01110000";
+//   EXPECT_EQ(0, strcmp(x.Add(byt, byt2), "01111110"));
+// }
 
-TEST(BinaryStore, Add1) {
-  BinaryStore x;
-  char byt[] = "00001010";
-  char byt2[] = "01010110";
-  EXPECT_EQ(strcmp(x.Add(byt, byt2), "01100000"), 0);
-}
+// TEST(BinaryStore, Add1) {
+//   BinaryStore x;
+//   char byt[] = "00001010";
+//   char byt2[] = "01010110";
+//   EXPECT_EQ(strcmp(x.Add(byt, byt2), "01100000"), 0);
+// }
 
-TEST(BinaryStore, comp_EQUAL) {
-  BinaryStore x;
-  char byt[] = "10001110";
-  char byt2[] = "10001110";
-  EXPECT_TRUE(x.comp_EQUAL(byt, byt2));
-}
+// TEST(BinaryStore, comp_EQUAL) {
+//   BinaryStore x;
+//   char byt[] = "10001110";
+//   char byt2[] = "10001110";
+//   EXPECT_TRUE(x.comp_EQUAL(byt, byt2));
+// }
 
-TEST(BinaryStore, comp_EQUAL1) {
-  BinaryStore x;
-  char byt[] = "10101110";
-  char byt2[] = "10001110";
-  EXPECT_FALSE(x.comp_EQUAL(byt, byt2));
-}
+// TEST(BinaryStore, comp_EQUAL1) {
+//   BinaryStore x;
+//   char byt[] = "10101110";
+//   char byt2[] = "10001110";
+//   EXPECT_FALSE(x.comp_EQUAL(byt, byt2));
+// }
 
-TEST(BinaryStore, comp_OR) {
-  BinaryStore x;
-  char byt[] = "10101110";
-  char byt2[] = "10001110";
-  EXPECT_EQ(strcmp(x.comp_OR(byt, byt2), "10101110"), 0);
-}
+// TEST(BinaryStore, comp_OR) {
+//   BinaryStore x;
+//   char byt[] = "10101110";
+//   char byt2[] = "10001110";
+//   EXPECT_EQ(strcmp(x.comp_OR(byt, byt2), "10101110"), 0);
+// }
 
-TEST(BinaryStore, comp_AND) {
-  BinaryStore x;
-  char byt[] = "11111110";
-  char byt2[] = "10001010";
-  EXPECT_TRUE(strcmp(x.comp_AND(byt, byt2), "10001010") == 0);
-}
+// TEST(BinaryStore, comp_AND) {
+//   BinaryStore x;
+//   char byt[] = "11111110";
+//   char byt2[] = "10001010";
+//   EXPECT_TRUE(strcmp(x.comp_AND(byt, byt2), "10001010") == 0);
+// }
 
-TEST(BinaryStore, comp_AND1) {
-  BinaryStore x;
-  char byt[] = "11111110";
-  char byt2[] = "10001010";
-  EXPECT_TRUE(strcmp(x.comp_AND(byt, byt2), "10001010") == 0);
-}
+// TEST(BinaryStore, comp_AND1) {
+//   BinaryStore x;
+//   char byt[] = "11111110";
+//   char byt2[] = "10001010";
+//   EXPECT_TRUE(strcmp(x.comp_AND(byt, byt2), "10001010") == 0);
+// }
 
-TEST(BinaryStore, comp_NOT) {
-  BinaryStore x;
-  char byt[] = "11111110";
-  char byt2[] = "10001010";
-  EXPECT_TRUE(strcmp(x.comp_NOT(byt), "00000001") == 0);
-  EXPECT_TRUE(strcmp(x.comp_NOT(byt2), "01110101") == 0);
-}
+// TEST(BinaryStore, comp_NOT) {
+//   BinaryStore x;
+//   char byt[] = "11111110";
+//   char byt2[] = "10001010";
+//   EXPECT_TRUE(strcmp(x.comp_NOT(byt), "00000001") == 0);
+//   EXPECT_TRUE(strcmp(x.comp_NOT(byt2), "01110101") == 0);
+// }
 
 // QUESTION 4
 // Demo of file.

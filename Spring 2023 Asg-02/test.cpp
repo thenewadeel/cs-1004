@@ -1,5 +1,5 @@
 // #include "pch.h"
-#include "Q2.cpp"
+#include "String.cpp"
 #include <gtest/gtest.h>
 
 // QUESTION 1

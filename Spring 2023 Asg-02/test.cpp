@@ -1,4 +1,5 @@
 // #include "pch.h"
+#include "BinaryStore.cpp"
 #include "String.cpp"
 #include <gtest/gtest.h>
 
@@ -259,91 +260,91 @@ TEST(String, assign_string) {
 
 // QUESTION 3
 // #include "Q3.cpp"
-// TEST(BinaryStore, start) {
-//   BinaryStore x(3);
-//   x.add_Address("0000");
-//   x.add_Address("0001");
-//   x.add_Address("0010");
+TEST(BinaryStore, start) {
+  BinaryStore x(3);
+  x.add_Address("0000");
+  x.add_Address("0001");
+  x.add_Address("0010");
 
-//   x.set_Byte("0000", "01010101");
-//   x.set_Byte("0010", "01010100");
+  x.set_Byte("0000", "01010101");
+  x.set_Byte("0010", "01010100");
 
-//   EXPECT_EQ(strcmp(x.Get("0000"), "01010101"), 0);
-//   //   EXPECT_EQ(x.Get("0001"), NULL);
-//   EXPECT_EQ(strcmp(x.Get("0010"), "01010100"), 0);
-// }
+  EXPECT_EQ(strcmp(x.Get("0000"), "01010101"), 0);
+  //   EXPECT_EQ(x.Get("0001"), NULL);
+  EXPECT_EQ(strcmp(x.Get("0010"), "01010100"), 0);
+}
 
-// TEST(BinaryStore, start1) {
-//   BinaryStore x(2);
-//   x.add_Address("0000");
-//   x.add_Address("0001");
+TEST(BinaryStore, start1) {
+  BinaryStore x(2);
+  x.add_Address("0000");
+  x.add_Address("0001");
 
-//   x.set_Byte("0000", "01010101");
-//   x.set_Byte("0010", "01010100");
+  x.set_Byte("0000", "01010101");
+  x.set_Byte("0010", "01010100");
 
-//   EXPECT_EQ(strcmp(x.Get("0000"), "01010101"), 0);
-//   EXPECT_EQ(strcmp(x.Get("0010"), "01010100"), 0);
+  EXPECT_EQ(strcmp(x.Get("0000"), "01010101"), 0);
+  EXPECT_EQ(strcmp(x.Get("0010"), "01010100"), 0);
 
-//   x.set_Byte("0000", "01111110");
-//   EXPECT_EQ(strcmp(x.Get("0000"), "01111110"), 0);
-// }
+  x.set_Byte("0000", "01111110");
+  EXPECT_EQ(strcmp(x.Get("0000"), "01111110"), 0);
+}
 
-// TEST(BinaryStore, Add) {
-//   BinaryStore x;
-//   char byt[] = "00001110";
-//   char byt2[] = "01110000";
-//   EXPECT_EQ(0, strcmp(x.Add(byt, byt2), "01111110"));
-// }
+TEST(BinaryStore, Add) {
+  BinaryStore x;
+  char byt[] = "00001110";
+  char byt2[] = "01110000";
+  EXPECT_EQ(0, strcmp(x.Add(byt, byt2), "01111110"));
+}
 
-// TEST(BinaryStore, Add1) {
-//   BinaryStore x;
-//   char byt[] = "00001010";
-//   char byt2[] = "01010110";
-//   EXPECT_EQ(strcmp(x.Add(byt, byt2), "01100000"), 0);
-// }
+TEST(BinaryStore, Add1) {
+  BinaryStore x;
+  char byt[] = "00001010";
+  char byt2[] = "01010110";
+  EXPECT_EQ(strcmp(x.Add(byt, byt2), "01100000"), 0);
+}
 
-// TEST(BinaryStore, comp_EQUAL) {
-//   BinaryStore x;
-//   char byt[] = "10001110";
-//   char byt2[] = "10001110";
-//   EXPECT_TRUE(x.comp_EQUAL(byt, byt2));
-// }
+TEST(BinaryStore, comp_EQUAL) {
+  BinaryStore x;
+  char byt[] = "10001110";
+  char byt2[] = "10001110";
+  EXPECT_TRUE(x.comp_EQUAL(byt, byt2));
+}
 
-// TEST(BinaryStore, comp_EQUAL1) {
-//   BinaryStore x;
-//   char byt[] = "10101110";
-//   char byt2[] = "10001110";
-//   EXPECT_FALSE(x.comp_EQUAL(byt, byt2));
-// }
+TEST(BinaryStore, comp_EQUAL1) {
+  BinaryStore x;
+  char byt[] = "10101110";
+  char byt2[] = "10001110";
+  EXPECT_FALSE(x.comp_EQUAL(byt, byt2));
+}
 
-// TEST(BinaryStore, comp_OR) {
-//   BinaryStore x;
-//   char byt[] = "10101110";
-//   char byt2[] = "10001110";
-//   EXPECT_EQ(strcmp(x.comp_OR(byt, byt2), "10101110"), 0);
-// }
+TEST(BinaryStore, comp_OR) {
+  BinaryStore x;
+  char byt[] = "10101110";
+  char byt2[] = "10001110";
+  EXPECT_EQ(strcmp(x.comp_OR(byt, byt2), "10101110"), 0);
+}
 
-// TEST(BinaryStore, comp_AND) {
-//   BinaryStore x;
-//   char byt[] = "11111110";
-//   char byt2[] = "10001010";
-//   EXPECT_TRUE(strcmp(x.comp_AND(byt, byt2), "10001010") == 0);
-// }
+TEST(BinaryStore, comp_AND) {
+  BinaryStore x;
+  char byt[] = "11111110";
+  char byt2[] = "10001010";
+  EXPECT_TRUE(strcmp(x.comp_AND(byt, byt2), "10001010") == 0);
+}
 
-// TEST(BinaryStore, comp_AND1) {
-//   BinaryStore x;
-//   char byt[] = "11111110";
-//   char byt2[] = "10001010";
-//   EXPECT_TRUE(strcmp(x.comp_AND(byt, byt2), "10001010") == 0);
-// }
+TEST(BinaryStore, comp_AND1) {
+  BinaryStore x;
+  char byt[] = "11111110";
+  char byt2[] = "10001010";
+  EXPECT_TRUE(strcmp(x.comp_AND(byt, byt2), "10001010") == 0);
+}
 
-// TEST(BinaryStore, comp_NOT) {
-//   BinaryStore x;
-//   char byt[] = "11111110";
-//   char byt2[] = "10001010";
-//   EXPECT_TRUE(strcmp(x.comp_NOT(byt), "00000001") == 0);
-//   EXPECT_TRUE(strcmp(x.comp_NOT(byt2), "01110101") == 0);
-// }
+TEST(BinaryStore, comp_NOT) {
+  BinaryStore x;
+  char byt[] = "11111110";
+  char byt2[] = "10001010";
+  EXPECT_TRUE(strcmp(x.comp_NOT(byt), "00000001") == 0);
+  EXPECT_TRUE(strcmp(x.comp_NOT(byt2), "01110101") == 0);
+}
 
 // QUESTION 4
 // Demo of file.

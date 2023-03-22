@@ -1,11 +1,6 @@
 #include "String.h"
 using namespace std;
 bool GLOBAL_DEBUG = false;
-// class String {
-//   char *data;
-//   // there is need of more data members, think about them...
-//   // provide definitions of following functions...
-// public:
 // default constructor
 String::String() {
   if (GLOBAL_DEBUG)
@@ -48,6 +43,7 @@ String::String(int x) {
   if (x > 0) {
     data = new char[x];
     // data = fill(data, '*', x);
+    data[0] = '\0';
   }
 }
 // returns the character at index [x] in a string
@@ -102,6 +98,7 @@ String String::append_string_main(char *c) const {
   for (int i = 0; i < l; i++) {
     data[i] = d[i];
   }
+  data[l] = '\0';
 }
 // appends a String at the end of the String
 String String::append_string(char *&str) const {
@@ -381,6 +378,7 @@ char *String::concat(char *a, char *b) const {
   for (int i = 0; i < lengthB; i++) {
     result[lengthA + i] = b[i];
   }
+  result[lengthA + lengthB] = '\0';
   // cout << endl << a << " + " << b << " = " << result;
   if (GLOBAL_DEBUG)
     cout << "Concatenated:" << a << ", " << b << " into:" << result;
@@ -396,6 +394,7 @@ char *String::concat(char *a, char *b) {
   for (int i = 0; i < lengthB; i++) {
     result[lengthA + i] = b[i];
   }
+  result[lengthA + lengthB] = '\0';
   // cout << endl << a << " + " << b << " = " << result;
   if (GLOBAL_DEBUG)
     cout << "Concatenated:" << a << ", " << b << " into:" << result;

@@ -13,7 +13,7 @@ class ZooChain {
 public:
   ZooCage *start;
   // Default constructor
-  ZooChain() { start = NULL; }
+  ZooChain();
   void add_Cage(char *name, int cageNumber); /*This member function will take
   the name and cageNumber of Animal as input parameter. It creates the ZooCage
   instance. If the new Zoocage instance is the first in the chain then the

@@ -34,9 +34,12 @@
 // BookMain.cpp). Keep the code generic so your program could be tested during
 // demos.
 
+// #include "Line.cpp"
+
+// #include "Page.cpp"
+
 #include "Book.cpp"
-#include "Line.cpp"
-#include "Page.cpp"
+
 #include <iostream>
 using namespace std;
 

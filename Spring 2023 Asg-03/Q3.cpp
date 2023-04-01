@@ -44,12 +44,20 @@
 using namespace std;
 
 int main() { // insert code here...
+  Line l1 = Line("popopopop");
+  //   l1.debugOut();
+  l1 += "xpxpxp";
+  //   l1.debugOut();
+  Page page(3);
   Page p, p2, p3, p4;
+  p.debugOut();
   p += "I think having someone in your life to look up to is one of the most "
        "important things. We all admire people like Linus Torvalds and Bill "
        "Gates but trying to make them your role models can be demotivating. "
        "Bill Gates began coding at age 13 and formed his first venture at age "
        "17.";
+  cout << "\n------------------------------\n";
+  p.debugOut();
   p2 +=
       "Having a local hero or mentor is more helpful. Because you're both "
       "living in the same community, there's a greater chance there won't be "

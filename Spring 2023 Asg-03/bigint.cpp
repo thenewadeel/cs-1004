@@ -52,6 +52,12 @@ public:
   // Arithmetic Operators
 
   BigInt operator+(const BigInt &val) const {
+    // cout << "Op+ called val:";
+    // val.debugOut();
+    // cout << ":" << val.size;
+    // cout << ", this:";
+    // debugOut();
+    // cout << ":" << size;
     BigInt result;
     int carry = 0;
     int maxlength;
@@ -61,15 +67,34 @@ public:
       maxlength = size;
     else
       maxlength = val.size;
-
+    // cout << "maxLen:" << maxlength;
     result.arr = new int[maxlength];
-    for (int i = 0; i < maxlength; i++) {
-      sum = arr[i] + val.arr[i] + carry;
-      result.arr[i] = sum % 10;
+    for (int i = 0; i <= maxlength; i++) {
+      //   cout << "I:" << i;
+      //   cout << ", val[arr]:" << val.arr[i];
+      //   cout << ", arr:" << arr[i];
+      //   cout << ", Sum:" << sum;
+      //   cout << ", carry:" << carry;
+      //   cout << ", REsult[i]:" << result.arr[i];
+      //   cout << endl;
+      sum = carry;
+      if (i <= val.size)
+        sum += val.arr[val.size - i];
+      if (i <= size)
+        sum += arr[size - i];
+      result.arr[maxlength - i] = sum % 10;
       carry = sum / 10;
+      //   cout << "i:" << i;
+      //   cout << "val[arr]:" << val.arr[maxlength - i];
+      //   cout << ", arr:" << arr[maxlength - i];
+      //   cout << ", Sum:" << sum;
+      //   cout << ", carry:" << carry;
+      //   cout << ", REsult[i]:" << result.arr[maxlength - i];
+      //   cout << endl;
     }
 
     if (carry == 1) {
+      //   cout << "****************************";
       int *temp = new int[maxlength + 1];
       temp[0] = carry;
 
@@ -81,15 +106,20 @@ public:
       result.arr = new int[maxlength + 1];
       for (int i = 0; i < maxlength + 1; i++) {
         result.arr[i] = temp[i];
+        // cout << "temp[i]:" << temp[i];
+        // cout << ", REsult[i]:" << result.arr[i];
       }
       result.size = maxlength + 1;
     } else {
       result.size = maxlength;
     }
-    for (int i = 0; i < result.size; i++) {
-      cout << result.arr[i];
-    }
-    cout << " ";
+    // for (int i = 0; i < result.size; i++) {
+    //   cout << i << ":";
+    //   cout << result.arr[i];
+    //   cout << endl;
+    // }
+    // cout << *result.arr;
+    // cout << " ";
     return result;
   }
 
@@ -203,6 +233,11 @@ public:
     }
     ary[size] = '\0';
     return ary;
+  }
+  void debugOut() const {
+    for (int i = 0; i < size; i++) {
+      cout << arr[i];
+    }
   }
 
 }; // return value of the BigInt as string

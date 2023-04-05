@@ -15,8 +15,11 @@ public:
   Line(const char *);
   Line(int length);
   // void setData(char *str);
+  char *getData();
   void setData(const char *str);
+  int remainingSpace() const;
   Line operator+=(const Line &rhs);
+  Line operator+=(const char *str);
   Line operator=(const char *rhs);
   void debugOut() const;
 };

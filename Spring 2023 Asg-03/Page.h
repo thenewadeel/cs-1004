@@ -19,7 +19,7 @@ public:
   Page operator+=(const Line &rhs);
   Page operator+=(const char *rhs);
   Line &operator[](int lineNumber);
-  void debugOut() const;
+  void debugOut(int) const;
 };
 
 #endif

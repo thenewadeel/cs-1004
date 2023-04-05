@@ -1,6 +1,6 @@
 #include "Line.h"
 #include "helper.cpp"
-bool DEBUG = true;
+bool DEBUG = false;
 Line::Line() {
   if (DEBUG)
     cout << "\nLine constructor called";
@@ -40,6 +40,17 @@ Line::Line(const char *str) {
   if (DEBUG)
     cout << "\nData:" << data;
 }
+Line Line::operator+=(const char *str) {
+  if (DEBUG)
+    cout << "\nLine op+= char* called, *str:" << str;
+  int l = getLength(str);
+  if (l < remainingSpace()) {
+    cout << "\nSpace is aval";
+    setData(str);
+  } else {
+    cout << "\nSpace not aval";
+  }
+}
 Line Line::operator+=(const Line &rhs) {
   if (DEBUG)
     cout << "\nLine op+= called, *rhs:" << rhs.data;
@@ -69,6 +80,7 @@ Line Line::operator=(const char *rhs) {
 void Line::debugOut() const {
   // cout << "\nmL:" << maxLength;
   cout << ", I:" << charIndex;
+  cout << ", Rem:" << remainingSpace();
   cout << ", i/data:\n";
   for (int i = 0; i < maxLength; i++) {
     cout << i % 10;
@@ -114,3 +126,10 @@ void Line::setData(const char *str) {
   if (DEBUG)
     cout << "\nData:" << data;
 }
+int Line::remainingSpace() const {
+  if (DEBUG) {
+    cout << "\nRemaining Space Fn called";
+  }
+  return maxLength - charIndex;
+}
+char *Line::getData() { return data; }

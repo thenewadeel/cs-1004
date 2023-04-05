@@ -1,29 +1,6 @@
 #include "Line.h"
-bool DEBUG = false;
-int getLength(const char *str) {
-  int i = 0;
-  if (str) {
-    while (str[i++]) {
-    }
-    return i - 1;
-  }
-  return 0;
-}
-char *concat(const char *a, const char *b) {
-  int lengthA = getLength(a);
-  int lengthB = getLength(b);
-  char *result = new char[lengthA + lengthB];
-  for (int i = 0; i < lengthA; i++) {
-    result[i] = a[i];
-  }
-  for (int i = 0; i < lengthB; i++) {
-    result[lengthA + i] = b[i];
-  }
-  result[lengthA + lengthB] = '\0';
-  cout << endl << a << " + " << b << " = " << result;
-  return result;
-}
-
+#include "helper.cpp"
+bool DEBUG = true;
 Line::Line() {
   if (DEBUG)
     cout << "\nLine constructor called";

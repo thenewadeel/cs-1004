@@ -44,6 +44,15 @@
 using namespace std;
 
 int main() { // insert code here...
+  cout << "OOOOOOOOOOOOOOOOOOOOO";
+
+  char *str =
+      "I think having someone in your life to look up to is one of the most ";
+  while (getLength(str) > 2) {
+
+    cout << "tok:" << tokenPop(str) << endl << "\nStr:" << str << endl;
+    ;
+  }
   Line l1 = Line("popopopop");
   //   l1.debugOut();
   l1 += "xpxpxp";

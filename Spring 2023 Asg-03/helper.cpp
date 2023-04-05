@@ -31,22 +31,25 @@ char *cutstr(char *str, int startIndex, int endIndex) {
 }
 char *leftShift(char *str, int positions) {
   // cout << "OOOOOOOOOOOOOOOOOOOOO";
-  char *res;
-  int l = getLength(str);
-  if (l > 0 && positions < l) {
-    int newL = l - positions;
-    res = new char[newL];
-    for (int i = 0; i < newL; i++) {
-      res[i] = str[i + positions];
+  if (positions < getLength(str)) {
+    char *res;
+    int l = getLength(str);
+    if (l > 0 && positions < l) {
+      int newL = l - positions;
+      res = new char[newL];
+      for (int i = 0; i < newL; i++) {
+        res[i] = str[i + positions];
+      }
+      res[newL] = '\0';
     }
-    res[newL] = '\0';
-  }
-  // cout << "\nLS:" << str << "=>" << res;
-  cout << "22222222222222222";
-  return res;
+    // cout << "\nLS:" << str << "=>" << res << endl;
+    // cout << "22222222222222222";
+    return res;
+  } else
+    return "\0";
 }
 char *tokenPop(char *&str, char seperator = ' ') {
-  cout << "\n*&str/len" << str << "/" << getLength(str);
+  // cout << "\n*&str/len" << str << "/" << getLength(str);
   char *token, *strResult, *tgt;
   tgt = str;
   int i = 0, len = getLength(tgt);
@@ -71,7 +74,7 @@ char *tokenPop(char *&str, char seperator = ' ') {
   token[i] = '\0';
   // cout << "------tgt:" << tgt;
   str = leftShift(str, i + 1);
-  cout << "111111111111111111111";
+  // cout << "111111111111111111111";
   // cout << "\nstr:" << str;
   // str = *tgt;
   return token;

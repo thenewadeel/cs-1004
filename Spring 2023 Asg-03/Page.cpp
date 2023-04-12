@@ -28,14 +28,16 @@ Page Page::operator+=(const char *rhs) {
   }
   str[i] = '\0';
   int remainingStrLength = getLength(str);
-  bool skipToken = false;
+  // bool skipToken = false;
   char *token = tokenPop(str);
+  str = remove_substring(str, token);
   remainingStrLength = getLength(str);
   do {
     if (lines[lineNo].remainingSpace() >= getLength(token)) {
       lines[lineNo] += token;
       lines[lineNo] += " ";
       token = tokenPop(str);
+      str = remove_substring(str, token);
       remainingStrLength = getLength(str);
       debugOut(1);
       // skipToken = false;

@@ -48,14 +48,14 @@ char *leftShift(char *str, int positions) {
   } else
     return "\0";
 }
-char *tokenPop(char *&str, char seperator = ' ') {
+char *tokenPop(const char *str, char seperator = ' ') {
   // cout << "\n*&str/len" << str << "/" << getLength(str);
   char *token, *strResult, *tgt;
-  tgt = str;
-  int i = 0, len = getLength(tgt);
-  strResult = new char[len];
+  // tgt = str[0];
+  int i = 0, len = getLength(str);
+  // tgt = new char[len];
   for (i = 0; i < len; i++) {
-    if ((tgt)[i] == seperator) {
+    if ((str)[i] == seperator) {
       // cout << "tgti:" << (tgt)[i];
       break;
     } else
@@ -63,17 +63,17 @@ char *tokenPop(char *&str, char seperator = ' ') {
   }
   // condition chk
   if (i == len || i == 0) {
-    str[0] = '\0';
-    return NULL;
+    // str[0] = '\0';
+    // return NULL;
   }
   token = new char[i];
   // cout << "\ntok init:" << token << ", len:" << i;
   for (int j = 0; j < i; j++) {
-    token[j] = tgt[j];
+    token[j] = str[j];
   }
   token[i] = '\0';
   // cout << "------tgt:" << tgt;
-  str = leftShift(str, i + 1);
+  // str = leftShift(str, i + 1);
   // cout << "111111111111111111111";
   // cout << "\nstr:" << str;
   // str = *tgt;
@@ -92,4 +92,75 @@ char *concat(const char *a, const char *b) {
   result[lengthA + lengthB] = '\0';
   cout << endl << a << " + " << b << " = " << result;
   return result;
-}
+};
+// returns the start index of the c-string being searched
+int index_at(char *str, char *substr) {
+  // if (GLOBAL_DEBUG)
+  cout << "Calling index_at Fn with args:" << str << ", " << substr << endl;
+  //  << " of length:" << getLength(substr)
+  int i = 0, j = 0;
+  int lStr = getLength(str);
+  int lSubstr = getLength(substr);
+  for (i = 0; i < lStr; i++) {
+    if (str[i] == substr[0]) {
+      for (j = 0; j < lSubstr; j++) {
+        if (str[i + j] == substr[j]) {
+
+          continue;
+        } else
+          break;
+      }
+      if (j == lSubstr) {
+        cout << "<== returning index:" << i;
+        return i;
+      }
+    }
+  }
+  cout << "<== returning index:" << -1;
+  return -1;
+};
+char *remove_substring(char *str, char *substr) {
+  // if (DEBUG)
+  cout << "Calling remove_string_main Fn with args:" << str << ", " << substr
+       << endl;
+  int sp = index_at(str, substr);
+  if (sp >= 0) {
+    int lStr = getLength(str);
+    int lSubstr = getLength(substr);
+    int l2 = lStr - lSubstr;
+    char *temp = new char[l2];
+    cout << "Str/lStr:" << str << "/" << lStr << " | ";
+    cout << "subStr/lsubStr:" << substr << "/" << lSubstr << " | ";
+    cout << "L2:" << l2;
+    int i = 0, j = 0;
+    for (i = 0; i < l2;) {
+      cout << "i:" << i;
+      //   temp[i] = str[i];
+      // }
+      if (i < sp) {
+        cout << "\ncp1:" << str[i];
+        temp[i] = str[i];
+      } else if (i >= sp + lSubstr) {
+        cout << "\ncp2:" << str[i + lSubstr];
+        temp[i] = str[i + lSubstr];
+        // }else{
+        //   temp[i]=
+      }
+      i++;
+      // for (j = sp + lSubstr; j < lStr; j++) {
+      //   cout << "cp2";
+      //   temp[i + j] = str[j];
+      // }
+    }
+    // char *data = new char[l2];
+    // int i = 0;
+    // for (i = 0; i < lStr; i++) {
+    //   str[i] = temp[i];
+    // }
+    cout << "Returned  DATA:" << temp;
+    temp[l2] = '\0';
+    cout << "Returned  DATA:" << temp;
+    return temp;
+    // assign_string_main(data);
+  }
+};

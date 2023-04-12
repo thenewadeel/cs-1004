@@ -48,9 +48,10 @@ int main() { // insert code here...
 
   char *str =
       "I think having someone in your life to look up to is one of the most ";
-  while (getLength(str) > 2) {
-
-    cout << "tok:" << tokenPop(str) << endl << "\nStr:" << str << endl;
+  while (getLength(str) > 0) {
+    char *token = tokenPop(str);
+    cout << "tok:" << token << endl << "\nStr:" << str << endl;
+    str = remove_substring(str, token);
     ;
   }
   Line l1 = Line("popopopop");

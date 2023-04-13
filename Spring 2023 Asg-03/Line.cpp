@@ -45,10 +45,10 @@ Line Line::operator+=(const char *str) {
     cout << "\nLine op+= char* called, *str:" << str;
   int l = getLength(str);
   if (l < remainingSpace()) {
-    cout << "\nSpace is aval";
+    // cout << "\nSpace is aval";
     setData(str);
   } else {
-    cout << "\nSpace not aval";
+    // cout << "\nSpace not aval";
   }
 }
 Line Line::operator+=(const Line &rhs) {
@@ -91,6 +91,7 @@ void Line::debugOut(int clean) const {
   for (int i = 0; i < maxLength; i++) {
     cout << data[i];
   }
+  cout << endl;
 }
 // void Line::setData(char *str) {
 //   if (DEBUG)

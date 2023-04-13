@@ -44,7 +44,7 @@ Page Page::operator+=(const char *rhs) {
       str = remove_substring(str, token);
       // cout << "\nStr/Length:" << str << "/" << getLength(str);
       remainingStrLength = getLength(str);
-      debugOut(1);
+      // debugOut(1);
       // skipToken = false;
     } else {
       lineNo++;

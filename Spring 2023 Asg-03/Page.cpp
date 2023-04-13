@@ -25,6 +25,8 @@ Page Page::operator+=(const char *rhs) {
   char *str = new char[l];
   for (i = 0; i < l; i++) {
     str[i] = rhs[i];
+    // if (rhs[i] == '\0')
+    // cout << "WWWWWWWWWWWWWWWWWWWWWWWWWWWW" << i << "WWWWWWWWWWWWW";
   }
   str[i] = '\0';
   int remainingStrLength = getLength(str);
@@ -33,19 +35,23 @@ Page Page::operator+=(const char *rhs) {
   str = remove_substring(str, token);
   remainingStrLength = getLength(str);
   do {
-    if (lines[lineNo].remainingSpace() >= getLength(token)) {
-      lines[lineNo] += token;
-      lines[lineNo] += " ";
-      token = tokenPop(str);
-      str = remove_substring(str, token);
-      remainingStrLength = getLength(str);
-      debugOut(1);
-      // skipToken = false;
-    } else {
-      lineNo++;
-      // skipToken = true;
+    if (remainingStrLength > 0) {
+      if (lines[lineNo].remainingSpace() >= getLength(token)) {
+        lines[lineNo] += token;
+        lines[lineNo] += " ";
+        token = tokenPop(str);
+        // cout << "\nPopped/Length:" << token << "/" << getLength(token);
+        str = remove_substring(str, token);
+        // cout << "\nStr/Length:" << str << "/" << getLength(str);
+        remainingStrLength = getLength(str);
+        debugOut(1);
+        // skipToken = false;
+      } else {
+        lineNo++;
+        // skipToken = true;
+      }
     }
-  } while (lineNo < maxLines || remainingStrLength > 0);
+  } while (lineNo < maxLines && remainingStrLength > 0);
 };
 Line &Page::operator[](int lineNumber){};
 void Page::debugOut(int clean = 0) const {

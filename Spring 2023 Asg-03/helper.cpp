@@ -121,28 +121,34 @@ int index_at(char *str, char *substr) {
 };
 char *remove_substring(char *str, char *substr) {
   // if (DEBUG)
-  cout << "Calling remove_string_main Fn with args:" << str << ", " << substr
-       << endl;
+  // cout << "Calling remove_string_main Fn with args:" << str << ", " << substr
+  //  << endl;
+  // cout << "strLength:" << getLength(str);
   int sp = index_at(str, substr);
   if (sp >= 0) {
     int lStr = getLength(str);
     int lSubstr = getLength(substr);
     int l2 = lStr - lSubstr;
-    char *temp = new char[l2];
-    cout << "Str/lStr:" << str << "/" << lStr << " | ";
-    cout << "subStr/lsubStr:" << substr << "/" << lSubstr << " | ";
-    cout << "L2:" << l2;
+    char *temp;
+    temp = new char[l2];
+    // cout << "\ninit  DATA:" << temp;
+    // cout << "\nStr/lStr:" << str << "/" << lStr << " | ";
+    // cout << "subStr/lsubStr:" << substr << "/" << lSubstr << " | ";
+    // cout << "L2:" << l2;
     int i = 0, j = 0;
     for (i = 0; i < l2;) {
-      cout << "i:" << i;
+      // cout << "i:" << i;
       //   temp[i] = str[i];
       // }
       if (i < sp) {
-        cout << "\ncp1:" << str[i];
+        // cout << "\ncp1:" << str[i];
         temp[i] = str[i];
+        // cout << "\n=>  DATA:" << temp;
       } else if (i >= sp + lSubstr) {
-        cout << "\ncp2:" << str[i + lSubstr];
         temp[i] = str[i + lSubstr];
+        // cout << "\n==>  DATA:" << i;
+        // cout << ":" << temp[i];
+        // cout << "cp2:" << str[i + lSubstr];
         // }else{
         //   temp[i]=
       }
@@ -157,8 +163,6 @@ char *remove_substring(char *str, char *substr) {
     // for (i = 0; i < lStr; i++) {
     //   str[i] = temp[i];
     // }
-    cout << "Returned  DATA:" << temp;
-    temp[l2] = '\0';
     cout << "Returned  DATA:" << temp;
     return temp;
     // assign_string_main(data);

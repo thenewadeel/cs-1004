@@ -66,6 +66,7 @@ char *tokenPop(const char *str, char seperator = ' ') {
     // str[0] = '\0';
     // return NULL;
   }
+  i += 1;
   token = new char[i];
   // cout << "\ntok init:" << token << ", len:" << i;
   for (int j = 0; j < i; j++) {
@@ -96,7 +97,7 @@ char *concat(const char *a, const char *b) {
 // returns the start index of the c-string being searched
 int index_at(char *str, char *substr) {
   // if (GLOBAL_DEBUG)
-  cout << "Calling index_at Fn with args:" << str << ", " << substr << endl;
+  // cout << "Calling index_at Fn with args:" << str << ", " << substr << endl;
   //  << " of length:" << getLength(substr)
   int i = 0, j = 0;
   int lStr = getLength(str);
@@ -111,12 +112,12 @@ int index_at(char *str, char *substr) {
           break;
       }
       if (j == lSubstr) {
-        cout << "<== returning index:" << i;
+        // cout << "<== returning index:" << i;
         return i;
       }
     }
   }
-  cout << "<== returning index:" << -1;
+  // cout << "<== returning index:" << -1;
   return -1;
 };
 char *remove_substring(char *str, char *substr) {
@@ -136,35 +137,39 @@ char *remove_substring(char *str, char *substr) {
     // cout << "subStr/lsubStr:" << substr << "/" << lSubstr << " | ";
     // cout << "L2:" << l2;
     int i = 0, j = 0;
-    for (i = 0; i < l2;) {
+    // cout << "\nCP2(i/str[i]):" << i << "\t" << str[i + lSubstr];
+    for (i = 0; i < l2; i++) {
       // cout << "i:" << i;
       //   temp[i] = str[i];
       // }
       if (i < sp) {
         // cout << "\ncp1:" << str[i];
-        temp[i] = str[i];
+        temp[j++] = str[i];
         // cout << "\n=>  DATA:" << temp;
-      } else if (i >= sp + lSubstr) {
-        temp[i] = str[i + lSubstr];
+      } else if (i >= sp) {
+        temp[j++] = str[i + lSubstr];
         // cout << "\n==>  DATA:" << i;
         // cout << ":" << temp[i];
-        // cout << "cp2:" << str[i + lSubstr];
+        // cout << "\nCP2(i/str[i]):" << i << "\t" << str[i + lSubstr];
         // }else{
         //   temp[i]=
       }
-      i++;
+      // i++;
       // for (j = sp + lSubstr; j < lStr; j++) {
       //   cout << "cp2";
       //   temp[i + j] = str[j];
       // }
     }
+    temp[j] = '\0';
     // char *data = new char[l2];
     // int i = 0;
     // for (i = 0; i < lStr; i++) {
     //   str[i] = temp[i];
     // }
-    cout << "Returned  DATA:" << temp;
+    // cout << "Returned  DATA:" << temp << endl;
     return temp;
     // assign_string_main(data);
-  }
+  } else
+    // cout << "Returned  DATA:xxx" << endl;
+    return " ";
 };

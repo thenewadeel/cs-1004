@@ -35,22 +35,22 @@ Page Page::operator+=(const char *rhs) {
   str = remove_substring(str, token);
   remainingStrLength = getLength(str);
   do {
-    if (remainingStrLength > 0) {
-      if (lines[lineNo].remainingSpace() >= getLength(token)) {
-        lines[lineNo] += token;
-        lines[lineNo] += " ";
-        token = tokenPop(str);
-        // cout << "\nPopped/Length:" << token << "/" << getLength(token);
-        str = remove_substring(str, token);
-        // cout << "\nStr/Length:" << str << "/" << getLength(str);
-        remainingStrLength = getLength(str);
-        debugOut(1);
-        // skipToken = false;
-      } else {
-        lineNo++;
-        // skipToken = true;
-      }
+    if (remainingStrLength > 0 &&
+        lines[lineNo].remainingSpace() >= getLength(token)) {
+      lines[lineNo] += token;
+      lines[lineNo] += " ";
+      token = tokenPop(str);
+      // cout << "\nPopped/Length:" << token << "/" << getLength(token);
+      str = remove_substring(str, token);
+      // cout << "\nStr/Length:" << str << "/" << getLength(str);
+      remainingStrLength = getLength(str);
+      debugOut(1);
+      // skipToken = false;
+    } else {
+      lineNo++;
+      // skipToken = true;
     }
+
   } while (lineNo < maxLines && remainingStrLength > 0);
 };
 Line &Page::operator[](int lineNumber){};
@@ -58,11 +58,7 @@ void Page::debugOut(int clean = 0) const {
   cout << "\n-------Pg---(" << lineIndex << ")-------\n";
   for (int i = 0; i < maxLines; i++) {
     cout << i << ":";
-    if (!clean)
-      lines[i].debugOut();
-    else {
-      cout << lines[i].getData() << endl;
-    }
+    lines[i].debugOut(clean);
   }
   cout << "\n-------End Pg------\n";
 }

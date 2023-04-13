@@ -21,7 +21,7 @@ public:
   Line operator+=(const Line &rhs);
   Line operator+=(const char *str);
   Line operator=(const char *rhs);
-  void debugOut() const;
+  void debugOut(int clean = 0) const;
 };
 
 #endif

@@ -77,15 +77,17 @@ Line Line::operator=(const char *rhs) {
   setData(rhs);
   return *this;
 }
-void Line::debugOut() const {
+void Line::debugOut(int clean) const {
   // cout << "\nmL:" << maxLength;
-  cout << ", I:" << charIndex;
-  cout << ", Rem:" << remainingSpace();
-  cout << ", i/data:\n";
-  for (int i = 0; i < maxLength; i++) {
-    cout << i % 10;
+  if (!clean) {
+    cout << ", I:" << charIndex;
+    cout << ", Rem:" << remainingSpace();
+    cout << ", i/data:\n";
+    for (int i = 0; i < maxLength; i++) {
+      cout << i % 10;
+    }
+    cout << endl;
   }
-  cout << endl;
   for (int i = 0; i < maxLength; i++) {
     cout << data[i];
   }

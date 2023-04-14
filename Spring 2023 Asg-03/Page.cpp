@@ -35,15 +35,14 @@ Page Page::operator+=(const char *rhs) {
   } else {
     colorOut(yellow, "Space of entire str is NOT aval");
     char *str = copyString(rhs);
-    for (int x = 0; x < getLength(str); x++) {
-      int avalSpace = lines[lineIndex].remainingSpace();
-      colorOut(red, "WWW");
-      cout << avalSpace << "/" << str[x];
-      if (avalSpace >= 1)
-        // lines[lineIndex] += str[x];
-        cout << "lll";
-      else {
-        cout << "QQQ";
+    for (int x = 0; x < getLength(str) - 1; x += 2) {
+      // colorOut(red, "WWW");
+      // cout << avalSpace << "/" << str[x];
+      if (lines[lineIndex].remainingSpace() >= 2) {
+        lines[lineIndex] += concat(str[x], str[x + 1]);
+        // cout << "lll";
+      } else {
+        // cout << "QQQ";
         lineIndex++;
         continue;
       }

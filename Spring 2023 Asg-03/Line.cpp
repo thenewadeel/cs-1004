@@ -105,6 +105,14 @@ char *concat(const char *a, const char *b) {
   cout << endl << a << " + " << b << " = " << result;
   return result;
 };
+char *concat(char a, char b) {
+  // int lengthA = getLength(a);
+  // int lengthB = getLength(b);
+  char *result = new char[2];
+  result[0] = a;
+  result[1] = b;
+  return result;
+};
 // returns the start index of the c-string being searched
 int index_at(char *str, char *substr) {
   // if (GLOBAL_DEBUG)
@@ -240,6 +248,7 @@ Line::Line(const char *str) {
 Line Line::operator+=(const char *str) {
   if (DEBUG)
     cout << "\nLine op+= char* called, *str:" << str;
+  // colorOut(red, " char *text");
   int l = getLength(str);
   if (l <= remainingSpace()) {
     if (DEBUG) {

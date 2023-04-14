@@ -7,6 +7,11 @@ using namespace std;
 
 class Book {
 private:
+  int maxPages = 100;
+  int pageIndex = 0;
+  Page *pages;
+  //   int b, a;
+
 public:
   Book();
   Book(int numberOfPages);
@@ -16,6 +21,7 @@ public:
   Page &operator[](int pageNumber);
   friend ostream &operator<<(ostream &input, const Book &);
   friend istream &operator>>(istream &ouput, Book &);
+  void debugOut(int clean = 0) const;
 };
 
 #endif

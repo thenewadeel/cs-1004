@@ -7,7 +7,7 @@ using namespace std;
 
 class Page {
 private:
-  int maxLines = 20;
+  const int maxLines = 20;
   int lineIndex = 0;
   Line *lines;
   //   int b, a;

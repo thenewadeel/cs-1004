@@ -10,6 +10,15 @@ int getLength(const char *str) {
   }
   return 0;
 }
+char *copyString(const char *S) {
+  int l = getLength(S);
+  char *temp = new char[l];
+  int i = 0;
+  for (i = 0; i < l; i++)
+    temp[i] = S[i];
+  temp[i] = '\0';
+  return temp;
+}
 char *cutstr(char *str, int startIndex, int endIndex) {
   char *result;
   int l = getLength(str);
@@ -62,9 +71,9 @@ char *tokenPop(const char *str, char seperator = ' ') {
       continue;
   }
   // condition chk
-  if (i == len || i == 0) {
+  if (i == len || i == 0 || i == 1) {
     // str[0] = '\0';
-    // return NULL;
+    return copyString(str);
   }
   i += 1;
   token = new char[i];
@@ -76,7 +85,7 @@ char *tokenPop(const char *str, char seperator = ' ') {
   // cout << "------tgt:" << tgt;
   // str = leftShift(str, i + 1);
   // cout << "111111111111111111111";
-  // cout << "\nstr:" << str;
+  cout << "\nT/S:" << token << "/" << str;
   // str = *tgt;
   return token;
 }
@@ -171,5 +180,18 @@ char *remove_substring(char *str, char *substr) {
     // assign_string_main(data);
   } else
     // cout << "Returned  DATA:xxx" << endl;
-    return " ";
+    return NULL;
 };
+enum colors {
+  red = 31,
+  green = 32,
+  yellow = 33,
+  blue = 34,
+  magenta = 35,
+  cyan = 36,
+};
+void colorOut(colors color, char *text) {
+  cout << "\033[1;" << color << "m";
+  cout << text;
+  cout << "\033[0m\n";
+}

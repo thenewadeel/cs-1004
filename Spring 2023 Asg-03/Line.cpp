@@ -208,15 +208,15 @@ void colorOut(colors color, char *text) {
 
 Line::Line() {
   if (DEBUG)
-    cout << "\n\n\n\t\t\tLine constructor called";
-  data = new char;
+    cout << "\t\tLine constructor called";
+  data = new char[maxLength];
   // length = maxLength;
   charIndex = 0;
   data[charIndex] = '\0';
 }
 Line::Line(int l) {
   if (DEBUG)
-    cout << "\n\n\n\t\t\tLine constructorLength called, l:" << l;
+    cout << "\t\tLine constructorLength called, l:" << l;
   // if (l <= maxLength) {
   //   length = l;
   // } else {
@@ -333,13 +333,13 @@ void Line::setData(const char *str) {
   // }
   // data = new char[maxLength];
   int i;
-  for (i = 0; i <= l; i++) {
+  for (i = 0; i < l; i++) {
     data[i + charIndex] = str[i];
   }
-  charIndex += i;
+  charIndex += l;
   // data[charIndex] = '\0';
   if (DEBUG)
-    cout << "\nData:" << data;
+    cout << "\nDataSet:" << data;
 }
 int Line::remainingSpace() const {
   if (DEBUG) {

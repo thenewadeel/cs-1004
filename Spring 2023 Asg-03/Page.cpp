@@ -40,9 +40,10 @@ Page Page::operator+=(const char *rhs) {
       // cout << avalSpace << "/" << str[x];
       if (lines[lineIndex].remainingSpace() >= 2) {
         lines[lineIndex] += concat(str[x], str[x + 1]);
-        // cout << "lll";
+        // cout << x;
       } else {
-        // cout << "QQQ";
+        // cout << ":" << x;
+        x -= 2;
         lineIndex++;
         continue;
       }
@@ -77,15 +78,17 @@ Page Page::operator+=(const char *rhs) {
   // } while (lineIndex < maxLines && remainingStrLength > 0);
   // debugOut(1);
 };
-Line &Page::operator[](int lineNumber){};
+Line &Page::operator[](int lineNumber) { return lines[lineNumber]; };
 void Page::debugOut(int clean = 0) const {
   // if (!clean) {
   colorOut(blue, "\n-------Pg---(");
   cout << lineIndex;
   colorOut(blue, ")-------\n");
-  cout << "Page Meta:";
-  cout << "Number of Lines:" << lineIndex;
-  cout << "\tMax Lines:" << maxLines;
+  if (DEBUG) {
+    cout << "Page Meta:";
+    cout << "Number of Lines:" << lineIndex;
+    cout << "\tMax Lines:" << maxLines;
+  }
   // }
   for (int i = 0; i < maxLines; i++) {
     cout << i << ":";

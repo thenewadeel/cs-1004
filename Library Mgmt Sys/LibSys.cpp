@@ -118,6 +118,20 @@ public:
     cout << "Due Date: " << duedate << endl;
   }
 };
+enum BookType { Magazine, Journal, StoryBook };
+string BookType_toString(BookType b) {
+  switch (b) {
+  case Magazine:
+    return "Magazine";
+    break;
+  case Journal:
+    return "Journal";
+    break;
+  case StoryBook:
+    return "StoryBook";
+    break;
+  }
+}
 class Books {
 private:
   int id;
@@ -306,7 +320,7 @@ public:
       }
     }
     if (!search) {
-      cout << "Book not found" << endl;
+      cout << "NOT found" << endl;
     }
     return search;
   }
@@ -365,10 +379,10 @@ public:
   void display() {
     cout << "Username: " << username << endl;
     cout << "Password: " << password << endl;
-    // cout << "Number of magazines: " << nummagazines << endl;
-    // cout << "Number of journals: " << numjournals << endl;
-    // cout << "Number of storybooks: " << numstorybooks << endl;
-    // cout << "Number of members: " << nummembers << endl;
+    cout << "Number of magazines: " << nummagazines << endl;
+    cout << "Number of journals: " << numjournals << endl;
+    cout << "Number of storybooks: " << numstorybooks << endl;
+    cout << "Number of members: " << nummembers << endl;
   }
 };
 int main() {
@@ -378,7 +392,10 @@ int main() {
   librarian.display();
 
   librarian.addbooks(1, "Magazine", "thomas", 10, "7-5-23", "Student");
-  librarian.addbooks(2, "Magazine", "thomas", 10, "7-5-23", "Student");
+  librarian.addbooks(12, "Magazine", "thomas", 10, "7-5-23", "Student");
+  librarian.addbooks(12, "Magazine", "thomas", 10, "7-5-23", "Student");
+  librarian.addbooks(12, "Magazine", "thomas", 10, "7-5-23", "Student");
+  librarian.addbooks(12, "Magazine", "thomas", 10, "7-5-23", "Student");
   librarian.addbooks(3, "Magazine", "thomas", 10, "7-5-23", "Student");
   /*
   librarian.addbooks("4", "Magazine", "thomas", 10, "16-6-23",true);
@@ -409,6 +426,11 @@ int main() {
   cout << endl;
 
   librarian.searchbook("Magazine");
+  cout << "\n---\n";
+  librarian.searchbook("Magazine");
+  cout << "\n---\n";
+  librarian.display();
+  cout << "\n---\n";
   // librarian.issuebook("Magazine ", "3");
 
   // Create some books
@@ -422,4 +444,6 @@ int main() {
   librarian.issuebook(b1, m1);
   librarian.issuebook(b2, m2);
   librarian.receivebook(b1, m1);
+  BookType a = StoryBook;
+  cout << BookType_toString(a);
 }

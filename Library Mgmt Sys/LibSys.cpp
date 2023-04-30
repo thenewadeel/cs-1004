@@ -118,7 +118,7 @@ public:
     cout << "Due Date: " << duedate << endl;
   }
 };
-enum BookType { Magazine, Journal, StoryBook };
+enum BookType { Book, Magazine, Journal, StoryBook };
 string BookType_toString(BookType b) {
   switch (b) {
   case Magazine:
@@ -140,6 +140,7 @@ private:
   int edition;
   string purchasedate;
   bool available;
+  BookType type;
 
 public:
   Books() {
@@ -149,21 +150,26 @@ public:
     edition = 0;
     purchasedate = "";
     available;
+    type = Magazine;
   }
   Books(string bookname) { name = bookname; }
   Books(int bookid, string bookname, string bookauthor, int bookedition,
-        string bookpurchasedate, bool isavailable = true) {
+        string bookpurchasedate, bool isavailable = true,
+        BookType bookType = Magazine) {
     id = bookid;
     name = bookname;
     author = bookauthor;
     edition = bookedition;
     purchasedate = bookpurchasedate;
     available = isavailable;
+    type = bookType;
   }
   void set_id(int bookid) { id = bookid; }
   int get_id() { return id; }
   void set_name(string bookname) { name = bookname; }
   string get_name() { return name; }
+  void set_type(BookType bookType) { type = bookType; }
+  BookType get_type() { return type; }
   void set_author(string bookauthor) { author = bookauthor; }
   string get_author() { return author; }
   void set_edition(int bookedition) { edition = bookedition; }
@@ -186,6 +192,7 @@ public:
   */
   void display() {
     cout << "Name of Book: " << name << endl;
+    cout << "Type: " << BookType_toString(type) << endl;
     cout << "Author: " << author << endl;
     cout << "Edition : " << edition << endl;
     cout << "Purchasedate :" << purchasedate << endl;
@@ -244,28 +251,28 @@ public:
 
 public:
   void addbooks(int id, string name, string author, int edition,
-                string purchasedate, string Membership_type) {
-    Books new_book(id, name, author, edition, purchasedate, "Student");
+                string purchasedate, BookType bookType = Magazine) {
+    Books new_book(id, name, author, edition, purchasedate, bookType);
     for (int i = 0; i < numstorybooks; i++) {
-      if (storybook[i].get_id() == id) {
+      if (storybook[i].get_name() == name) {
         cout << "Book already exists in the library." << endl;
         return;
       }
     }
     for (int i = 0; i < numjournals; i++) {
-      if (journal[i].get_id() == id) {
+      if (journal[i].get_name() == name) {
         cout << "Book already exists in the library." << endl;
         return;
       }
     }
     for (int i = 0; i < nummagazines; i++) {
-      if (magazines[i].get_id() == id) {
+      if (magazines[i].get_name() == name) {
         cout << "Book already exists in the library." << endl;
         return;
       }
     }
     // Add
-    if (new_book.get_name() == "Magazine") {
+    if (new_book.get_type() == Magazine) {
       if (nummagazines < max_magazines) {
         magazines[nummagazines] = new_book;
         nummagazines++;
@@ -273,7 +280,7 @@ public:
       } else {
         cout << "Maximum number of magazines reached" << endl;
       }
-    } else if (new_book.get_name() == "Journal") {
+    } else if (new_book.get_type() == Journal) {
       if (numjournals < max_journals) {
         journal[numjournals] = new_book;
         numjournals++;
@@ -281,7 +288,7 @@ public:
       } else {
         cout << "Maximum number of journals reached." << endl;
       }
-    } else if (new_book.get_name() == "Storybook") {
+    } else if (new_book.get_type() == StoryBook) {
       if (numstorybooks < max_storybooks) {
         storybook[numstorybooks] = new_book;
         numstorybooks++;
@@ -331,15 +338,15 @@ public:
     if (member.get_issued_books_count() >= member.get_max_issued_books()) {
       cout << "Books reached its maximum limit" << endl;
     }
-    if (book.get_name() == "Storybook") {
+    if (book.get_type() == StoryBook) {
       cout << "storybook issued" << endl;
       storybooks_issued++;
     }
-    if (book.get_name() == "Journal") {
+    if (book.get_type() == Journal) {
       journals_issued++;
       cout << "Journals issued" << endl;
     }
-    if (book.get_name() == "Magazines") {
+    if (book.get_type() == Magazine) {
       magazines_issued++;
       cout << "magazines issued" << endl;
     }
@@ -391,12 +398,12 @@ int main() {
   librarian.login("username", "password");
   librarian.display();
 
-  librarian.addbooks(1, "Magazine", "thomas", 10, "7-5-23", "Student");
-  librarian.addbooks(12, "Magazine", "thomas", 10, "7-5-23", "Student");
-  librarian.addbooks(12, "Magazine", "thomas", 10, "7-5-23", "Student");
-  librarian.addbooks(12, "Magazine", "thomas", 10, "7-5-23", "Student");
-  librarian.addbooks(12, "Magazine", "thomas", 10, "7-5-23", "Student");
-  librarian.addbooks(3, "Magazine", "thomas", 10, "7-5-23", "Student");
+  librarian.addbooks(1, "Magazine", "thomas", 10, "7-5-23", Magazine);
+  librarian.addbooks(12, "Magazine1", "thomas", 10, "7-5-23", Magazine);
+  librarian.addbooks(12, "Magazine2", "thomas", 10, "7-5-23", Magazine);
+  librarian.addbooks(12, "Magazine3", "thomas", 10, "7-5-23", Magazine);
+  librarian.addbooks(12, "Magazine4", "thomas", 10, "7-5-23", Magazine);
+  librarian.addbooks(3, "Magazine", "thomas", 10, "7-5-23", Magazine);
   /*
   librarian.addbooks("4", "Magazine", "thomas", 10, "16-6-23",true);
   librarian.addbooks("10", "Journal", "Ronald", 13, "16-6-23",true);
@@ -427,7 +434,7 @@ int main() {
 
   librarian.searchbook("Magazine");
   cout << "\n---\n";
-  librarian.searchbook("Magazine");
+  librarian.searchbook("Magazine1");
   cout << "\n---\n";
   librarian.display();
   cout << "\n---\n";

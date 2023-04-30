@@ -1,14 +1,24 @@
 #include <iostream>
 #include <string>
 using namespace std;
-
+enum MembershipType { StudentMember, FacultyMember };
+string MembershipType_toString(MembershipType mType) {
+  switch (mType) {
+  case StudentMember:
+    return "Student";
+    break;
+  case FacultyMember:
+    return "Faculty";
+    break;
+  }
+};
 class Member {
 private:
   int id;
   string name;
   string address;
   int phonenumber;
-  string membership_type;
+  MembershipType type;
 
 public:
   int issued_books_count;
@@ -25,20 +35,21 @@ public:
     memberid = 0;
   }
   Member(int memberid, string membername, string memberaddress,
-         int memberphonenumber, string Membership_type) {
+         int memberphonenumber,
+         MembershipType Membership_type = StudentMember) {
     id = memberid;
     name = membername;
     address = memberaddress;
     phonenumber = memberphonenumber;
-    membership_type = Membership_type;
+    type = Membership_type;
     issued_books = new int[max_issued_books];
     memberid = 0;
     // issued_books = 0;
     // max_issued_books = 5;
 
-    if (membership_type == "Student") {
+    if (type == StudentMember) {
       max_issued_books = 3;
-    } else if (membership_type == "Faculty") {
+    } else if (type == FacultyMember) {
       max_issued_books = 5;
     } else {
       max_issued_books = 0;
@@ -56,16 +67,18 @@ public:
   int get_id() { return id; }
   void set_name(string membername) { name = membername; }
   string get_name() { return name; }
+  void set_type(MembershipType mType) { type = mType; }
+  MembershipType get_type() { return type; }
   void set_address(string memberaddress) { address = memberaddress; }
   string get_address() { return address; }
   void set_memberphonenumber(int memberphonenumber) {
     phonenumber = memberphonenumber;
   }
   int get_memberphonenumber() { return phonenumber; }
-  void set_membership_type(string Membership_type) {
-    membership_type = Membership_type;
-  }
-  string get_membership_type() { return membership_type; }
+  // void set_membership_type(string Membership_type) {
+  //   membership_type = Membership_type;
+  // }
+  // string get_membership_type() { return membership_type; }
   int get_max_issued_books() { return max_issued_books; }
   int get_issued_books_count() { return issued_books_count; }
   void decrement_issued_books_count() { issued_books_count--; }
@@ -74,6 +87,7 @@ public:
     cout << "Name: " << name << endl;
     cout << "Address: " << address << endl;
     cout << "Phone Number: " << phonenumber << endl;
+    cout << "Issued books: " << issued_books_count << endl;
   }
 };
 class Student : public Member {
@@ -337,16 +351,13 @@ public:
     }
     if (member.get_issued_books_count() >= member.get_max_issued_books()) {
       cout << "Books reached its maximum limit" << endl;
-    }
-    if (book.get_type() == StoryBook) {
+    } else if (book.get_type() == StoryBook) {
       cout << "storybook issued" << endl;
       storybooks_issued++;
-    }
-    if (book.get_type() == Journal) {
+    } else if (book.get_type() == Journal) {
       journals_issued++;
       cout << "Journals issued" << endl;
-    }
-    if (book.get_type() == Magazine) {
+    } else if (book.get_type() == Magazine) {
       magazines_issued++;
       cout << "magazines issued" << endl;
     }
@@ -362,8 +373,7 @@ public:
   void receivebook(Books book, Member member) {
     bool found = false;
     for (int i = 0; i < member.issued_books_count; i++) {
-      if (member.issued_books[i] == book.get_id() &&
-          member.memberid == member.get_id()) {
+      if (member.issued_books[i] == book.get_id()) {
         book.set_availability(true);
         member.decrement_issued_books_count();
         found = true;
@@ -372,7 +382,7 @@ public:
       }
     }
     if (found == false) {
-      cout << "Book not issued by member" << endl;
+      cout << "Book not issued to member" << endl;
     }
   }
 
@@ -415,7 +425,7 @@ int main() {
 */
   librarian.display1();
   cout << endl;
-  Student student1(1, "eman", "123 street", 1232334790);
+  class Student student1(1, "eman", "123 street", 1232334790);
   Student student2(2, "esha", "abc colony", 2345826341);
   Student student3(3, "amna", "xyz street", 3456354732);
   Faculty faculty1(1, "ali", "pqr street", 1232344790);
@@ -446,9 +456,11 @@ int main() {
   Books b3(3456, "Journal", "Author 3", 11, "Publisher 3", true);
   Books b4(4567, "Book 4", "Author 4", 13, "Publisher 4", true);
   Books b5(5678, "Book 5", "Author 5", 15, "Publisher 5", true);
-  Member m1(001, "John Doe", "123 Main St.", 5551234, "Student");
-  Member m2(002, "kamran", "456 Main St.", 5321234, "Student");
+  Member m1(001, "John Doe", "123 Main St.", 5551234, StudentMember);
+  Member m2(002, "kamran", "456 Main St.", 5321234, StudentMember);
+  m1.display();
   librarian.issuebook(b1, m1);
+  m1.display();
   librarian.issuebook(b2, m2);
   librarian.receivebook(b1, m1);
   BookType a = StoryBook;

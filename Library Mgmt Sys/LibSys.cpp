@@ -206,10 +206,12 @@ public:
   */
   void display() {
     cout << "Name of Book: " << name << endl;
+    cout << "ID : " << id << endl;
     cout << "Type: " << BookType_toString(type) << endl;
     cout << "Author: " << author << endl;
     cout << "Edition : " << edition << endl;
     cout << "Purchasedate :" << purchasedate << endl;
+    cout << "Availability :" << available << endl;
   }
 };
 class Library {
@@ -345,32 +347,32 @@ public:
     }
     return search;
   }
-  void issuebook(Books book, Member member) {
+  void issuebook(Books &book, Member &member) {
     if (book.get_availability()) {
       cout << "Book is available" << endl;
-    }
-    if (member.get_issued_books_count() >= member.get_max_issued_books()) {
-      cout << "Books reached its maximum limit" << endl;
-    } else if (book.get_type() == StoryBook) {
-      cout << "storybook issued" << endl;
-      storybooks_issued++;
-    } else if (book.get_type() == Journal) {
-      journals_issued++;
-      cout << "Journals issued" << endl;
-    } else if (book.get_type() == Magazine) {
-      magazines_issued++;
-      cout << "magazines issued" << endl;
-    }
+      if (member.get_issued_books_count() >= member.get_max_issued_books()) {
+        cout << "Books reached its maximum limit" << endl;
+      } else if (book.get_type() == StoryBook) {
+        cout << "storybook issued" << endl;
+        storybooks_issued++;
+      } else if (book.get_type() == Journal) {
+        journals_issued++;
+        cout << "Journals issued" << endl;
+      } else if (book.get_type() == Magazine) {
+        magazines_issued++;
+        cout << "magazines issued" << endl;
+      }
 
-    book.set_availability(false);
-    member.issued_books_count++;
-    member.Issuedbooks(book.get_id());
-    member.memberid = member.get_id();
+      book.set_availability(false);
+      member.issued_books_count++;
+      member.Issuedbooks(book.get_id());
+      member.memberid = member.get_id();
+    }
 
     // cout<<"Book issued to " <<member.get_name()<<endl;
   }
 
-  void receivebook(Books book, Member member) {
+  void receivebook(Books &book, Member &member) {
     bool found = false;
     for (int i = 0; i < member.issued_books_count; i++) {
       if (member.issued_books[i] == book.get_id()) {

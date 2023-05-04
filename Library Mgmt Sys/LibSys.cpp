@@ -268,21 +268,21 @@ public:
 public:
   void addbooks(int id, string name, string author, int edition,
                 string purchasedate, BookType bookType = Magazine) {
-    Books new_book(id, name, author, edition, purchasedate, bookType);
+    Books new_book(id, name, author, edition, purchasedate, true, bookType);
     for (int i = 0; i < numstorybooks; i++) {
-      if (storybook[i].get_name() == name) {
+      if (storybook[i].get_id() == id) {
         cout << "Book already exists in the library." << endl;
         return;
       }
     }
     for (int i = 0; i < numjournals; i++) {
-      if (journal[i].get_name() == name) {
+      if (journal[i].get_id() == id) {
         cout << "Book already exists in the library." << endl;
         return;
       }
     }
     for (int i = 0; i < nummagazines; i++) {
-      if (magazines[i].get_name() == name) {
+      if (magazines[i].get_id() == id) {
         cout << "Book already exists in the library." << endl;
         return;
       }
@@ -388,7 +388,51 @@ public:
     }
   }
 
-  void generatefine(string id);
+  int utility(string date1, string date2) {
+    char day1_index[3] = {date1[0], date1[1], '\0'};
+    int day1 = atoi(day1_index);
+
+    char month1_index[3] = {date1[3], date1[4], '\0'};
+    int month1 = atoi(month1_index);
+
+    char year1_index[5] = {date1[6], date1[7], date1[8], date1[9], '\0'};
+    int year1 = atoi(year1_index);
+
+    char day2_index[3] = {date2[0], date2[1], '\0'};
+    int day2 = atoi(day2_index);
+
+    char month2_index[3] = {date2[3], date2[4], '\0'};
+    int month2 = atoi(month2_index);
+
+    char year2_index[5] = {date2[6], date2[7], date2[8], date2[9], '\0'};
+    int year2 = atoi(year2_index);
+
+    if (month1 > 12 || month2 > 12) {
+      cout << "invalid month";
+    }
+    int total_days = 0;
+
+    total_days += (year2 - year1) * 365;
+    total_days += (month2 - month1) * 30;
+    total_days += (day2 - day1) * 1;
+    cout << "days left :  " << total_days << endl;
+    return total_days;
+  }
+  int generatefine(Member &member, Books &book) {
+    int totaloverduedays = utility("01-02-2023", "02-03-2023");
+    int fine;
+    switch (member.get_type()) {
+    case (StudentMember):
+      fine = 500 * totaloverduedays;
+      break;
+
+    case (FacultyMember):
+      fine = 150 * totaloverduedays;
+      break;
+    }
+    return fine;
+  }
+
   void display1() {
     cout << "Number of magazines: " << nummagazines << endl;
     cout << "Number of journals: " << numjournals << endl;
@@ -410,12 +454,12 @@ int main() {
   librarian.login("username", "password");
   librarian.display();
 
-  librarian.addbooks(1, "Magazine", "thomas", 10, "7-5-23", Magazine);
-  librarian.addbooks(12, "Magazine1", "thomas", 10, "7-5-23", Magazine);
-  librarian.addbooks(12, "Magazine2", "thomas", 10, "7-5-23", Magazine);
-  librarian.addbooks(12, "Magazine3", "thomas", 10, "7-5-23", Magazine);
-  librarian.addbooks(12, "Magazine4", "thomas", 10, "7-5-23", Magazine);
-  librarian.addbooks(3, "Magazine", "thomas", 10, "7-5-23", Magazine);
+  librarian.addbooks(1, "Magazine", "thomas", 10, "7-5-23", Journal);
+  librarian.addbooks(3, "Magazine1", "thomas", 10, "7-5-23", Magazine);
+  librarian.addbooks(4, "Magazine2", "thomas", 10, "7-5-23", StoryBook);
+  librarian.addbooks(5, "Magazine3", "thomas", 10, "7-5-23", StoryBook);
+  librarian.addbooks(5, "Magazine4", "thomas", 10, "7-5-23", StoryBook);
+  librarian.addbooks(6, "Magazine", "thomas", 10, "7-5-23", StoryBook);
   /*
   librarian.addbooks("4", "Magazine", "thomas", 10, "16-6-23",true);
   librarian.addbooks("10", "Journal", "Ronald", 13, "16-6-23",true);

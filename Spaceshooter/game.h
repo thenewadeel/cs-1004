@@ -1,6 +1,9 @@
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Rect.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <iostream>
 #include <time.h>
 using namespace std;
@@ -35,7 +38,7 @@ public:
     }
 
     srand(time(0));
-    RenderWindow window(VideoMode(400, 400), title);
+    RenderWindow window(VideoMode(800, 600), title);
     Clock clock;
     float timer = 0;
 
@@ -51,13 +54,13 @@ public:
       }
 
       if (Keyboard::isKeyPressed(Keyboard::Left))  // If left key is pressed
-        p->move("l");                              // Player will move to left
+        p->movement("l");                          // Player will move to left
       if (Keyboard::isKeyPressed(Keyboard::Right)) // If right key is pressed
-        p->move("r");                              // player will move to right
+        p->movement("r");                          // player will move to right
       if (Keyboard::isKeyPressed(Keyboard::Up))    // If up key is pressed
-        p->move("u");                              // playet will move upwards
+        p->movement("u");                          // playet will move upwards
       if (Keyboard::isKeyPressed(Keyboard::Down))  // If down key is pressed
-        p->move("d");                              // player will move downwards
+        p->movement("d");                          // player will move downwards
       if (Keyboard::isKeyPressed(
               Keyboard::Comma))         // If comma (,) key is pressed
         showDebugInfo = !showDebugInfo; // toggle debug messages
@@ -73,17 +76,7 @@ public:
           sf::Mouse::getPosition(window); // window is a sf::Window
       // p->setLocation(localPosition.x, localPosition.y);
       window.draw(p->sprite); // setting player on screen
-      // sf::Rect<int> asd = sf::Rect<int>(p->sprite.getGlobalBounds());
-      sf::CircleShape shape(50.f);
-      p->sprite.setPosition(localPosition.x, localPosition.y);
-      debugMessage(string("Mouse:") + "asd");
-      // set the shape color to green
-      shape.setFillColor(sf::Color(100, 250, 50));
-      // set a 10-pixel wide orange outline
-      shape.setOutlineThickness(10.f);
-      shape.setOutlineColor(sf::Color(250, 150, 100));
-      // shape.move(p->x, p->y);
-      window.draw(shape); // setting player on screen
+      window.draw(p->boundingRect());
 
       sf::Text text;
 

@@ -8,6 +8,7 @@
 #include <time.h>
 using namespace std;
 #include "bullet.h"
+#include "enemy.h"
 #include "gameEntity.h"
 #include "player.h"
 const char title[] = "OOP-Project, Spring-2023";
@@ -19,14 +20,18 @@ public:
   Texture bg_texture;
   Player *p; // player
   Bullet *b;
+  Enemy *en;
   bool showDebugInfo = false;
   // add other game attributes
 
   Game() {
     p = new Player();
     b = new Bullet();
+    en = new Enemy();
     b->setHeading(Vector2f(0, -1));
     b->setPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT);
+    en->setPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+
     bg_texture.loadFromFile("img/background.jpg");
     background.setTexture(bg_texture);
     background.setScale(1, 1);
@@ -82,15 +87,20 @@ public:
       // get the local mouse position (relative to a window)
       sf::Vector2i localPosition =
           sf::Mouse::getPosition(window); // window is a sf::Window
-      // p->setLocation(localPosition.x, localPosition.y);
-      window.draw(p->sprite); // setting player on screen
-      window.draw(p->boundingRect());
+      // p->movementMouse(localPosition);
+      p->draw(window);
       b->tick();
-      if (b->isColliding((GameEntity)*p)) {
-        // cout << "X";
+      b->draw(window);
+      if (en->isAlive()) {
+        if (b->isColliding((GameEntity)*en)) {
+          // cout << "X";
+          en->receiveDamage(1);
+        }
+        en->draw(window);
+      } else {
+        // en->~GameEntity();
+        // en = NULL;
       }
-      window.draw(b->sprite);
-      window.draw(b->boundingRect());
       // window.draw(en.sprite);
       // window.draw(en.boundingRect());
 

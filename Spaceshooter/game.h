@@ -66,14 +66,18 @@ public:
           window.close();            // close the game
       }
 
-      if (Keyboard::isKeyPressed(Keyboard::Left))  // If left key is pressed
-        p->movement("l");                          // Player will move to left
-      if (Keyboard::isKeyPressed(Keyboard::Right)) // If right key is pressed
-        p->movement("r");                          // player will move to right
-      if (Keyboard::isKeyPressed(Keyboard::Up))    // If up key is pressed
-        p->movement("u");                          // playet will move upwards
-      if (Keyboard::isKeyPressed(Keyboard::Down))  // If down key is pressed
-        p->movement("d");                          // player will move downwards
+      if (Keyboard::isKeyPressed(Keyboard::Left) ||
+          Keyboard::isKeyPressed(Keyboard::A)) // If left key is pressed
+        p->movement("l");                      // Player will move to left
+      if (Keyboard::isKeyPressed(Keyboard::Right) ||
+          Keyboard::isKeyPressed(Keyboard::D)) // If right key is pressed
+        p->movement("r");                      // player will move to right
+      if (Keyboard::isKeyPressed(Keyboard::Up) ||
+          Keyboard::isKeyPressed(Keyboard::W)) // If up key is pressed
+        p->movement("u");                      // playet will move upwards
+      if (Keyboard::isKeyPressed(Keyboard::Down) ||
+          Keyboard::isKeyPressed(Keyboard::S)) // If down key is pressed
+        p->movement("d");                      // player will move downwards
       if (Keyboard::isKeyPressed(
               Keyboard::Comma))         // If comma (,) key is pressed
         showDebugInfo = !showDebugInfo; // toggle debug messages

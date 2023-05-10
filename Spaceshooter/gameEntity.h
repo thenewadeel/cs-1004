@@ -1,10 +1,13 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Shape.hpp>
 #include <SFML/Graphics/Transform.hpp>
 #include <SFML/Graphics/View.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <string.h>
 using namespace sf;
 #ifndef GAMEENTITY
@@ -13,16 +16,21 @@ int SCREEN_WIDTH = 800;
 int SCREEN_HEIGHT = 600;
 class GameEntity {
   Texture tex;
-  bool collision = false;
 
 public:
+  int health = 100;
+  bool collision = false;
+  int w, h;
   Sprite sprite;
   // int health;
   // Force accumulation - insert here -
   GameEntity() { setSprite(); }
+  // ~GameEntity();
   void setSprite(std::string png_path = "img/gameEntity.png") {
     tex.loadFromFile(png_path);
-    sf::IntRect texRect = IntRect(0, 0, tex.getSize().x, tex.getSize().y);
+    w = tex.getSize().x;
+    h = tex.getSize().y;
+    sf::IntRect texRect = IntRect(0, 0, w, h);
     sprite.setTexture(tex);
     sprite.setTextureRect(texRect);
     sprite.setPosition(240, 150); // TODO . . . set position mech
@@ -58,5 +66,23 @@ public:
   }
   void setPosition(int x, int y) { sprite.setPosition(x, y); }
   void setScale(float x, float y) { sprite.setScale(x, y); }
+  void destroy() { this->~GameEntity(); }
+  void receiveDamage(int damageAmount) {
+    this->collision = true;
+    if (health > 0) {
+      this->health -= damageAmount;
+      // destroy();
+    }
+  }
+  bool isAlive() { return health > 0; }
+  void draw(RenderWindow &window, bool drawBounds = false) {
+    window.draw(sprite);
+    RectangleShape healthRect = RectangleShape(Vector2f(health * w / 100, 2));
+    healthRect.setPosition(sprite.getPosition());
+    healthRect.setFillColor(sf::Color::Green);
+    window.draw(healthRect);
+    if (drawBounds)
+      window.draw(boundingRect());
+  }
 };
 #endif

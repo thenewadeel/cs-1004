@@ -7,6 +7,8 @@
 #include <iostream>
 #include <time.h>
 using namespace std;
+#include "bullet.h"
+#include "gameEntity.h"
 #include "player.h"
 const char title[] = "OOP-Project, Spring-2023";
 using namespace sf;
@@ -16,11 +18,15 @@ public:
   Sprite background; // Game background sprite
   Texture bg_texture;
   Player *p; // player
+  Bullet *b;
   bool showDebugInfo = false;
   // add other game attributes
 
   Game() {
-    p = new Player("img/player_ship.png");
+    p = new Player();
+    b = new Bullet();
+    b->setHeading(Vector2f(0, -1));
+    b->setPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT);
     bg_texture.loadFromFile("img/background.jpg");
     background.setTexture(bg_texture);
     background.setScale(1, 1);
@@ -38,9 +44,11 @@ public:
     }
 
     srand(time(0));
-    RenderWindow window(VideoMode(800, 600), title);
+    RenderWindow window(VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), title);
     Clock clock;
     float timer = 0;
+
+    // GameEntity en;
 
     while (window.isOpen()) {
       float time = clock.getElapsedTime().asSeconds();
@@ -77,6 +85,14 @@ public:
       // p->setLocation(localPosition.x, localPosition.y);
       window.draw(p->sprite); // setting player on screen
       window.draw(p->boundingRect());
+      b->tick();
+      if (b->isColliding((GameEntity)*p)) {
+        // cout << "X";
+      }
+      window.draw(b->sprite);
+      window.draw(b->boundingRect());
+      // window.draw(en.sprite);
+      // window.draw(en.boundingRect());
 
       sf::Text text;
 

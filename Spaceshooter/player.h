@@ -1,24 +1,15 @@
+#include "gameEntity.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Shape.hpp>
 #include <string.h>
 using namespace sf;
-class Player : public sf::Transformable {
+class Player : public GameEntity {
 public:
-  Texture tex;
-  Sprite sprite;
   float speed = 0.25;
-  int x, y;
-  Player(std::string png_path) {
 
-    tex.loadFromFile(png_path);
-    sprite.setTexture(tex);
-    x = 140;
-    y = 100;
-    sprite.setPosition(240, 150);
-    sprite.setScale(1, 1);
-  }
+  Player() { this->setSprite("img/player_ship.png"); }
   void fire() {}
   void movement(std::string s) {
     float delta_x = 0, delta_y = 0;
@@ -41,15 +32,5 @@ public:
     // this->setPosition(delta_x, delta_y);
 
     sprite.move(delta_x, delta_y);
-  }
-  RectangleShape boundingRect() {
-
-    RectangleShape shp(Vector2f(sprite.getLocalBounds().width,
-                                sprite.getLocalBounds().height));
-    shp.setFillColor(sf::Color::Transparent);
-    shp.setOutlineColor(sf::Color::Cyan);
-    shp.setOutlineThickness(3.f);
-    shp.setPosition(sprite.getPosition().x, sprite.getPosition().y);
-    return shp;
   }
 };

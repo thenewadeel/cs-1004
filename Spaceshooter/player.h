@@ -1,3 +1,4 @@
+#include "bullet.h"
 #include "gameEntity.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Drawable.hpp>
@@ -6,6 +7,8 @@
 #include <SFML/System/Vector2.hpp>
 #include <string.h>
 using namespace sf;
+#ifndef PLAYER
+#define PLAYER
 class Player : public GameEntity {
 public:
   float speed = 0.25;
@@ -42,3 +45,4 @@ public:
     sprite.move(delta_x, delta_y);
   }
 };
+#endif

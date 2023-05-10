@@ -7,6 +7,8 @@
 #include <math.h>
 #include <string.h>
 using namespace sf;
+#ifndef BULLET
+#define BULLET
 class Bullet : public GameEntity {
 public:
   float speed = 0.1;
@@ -54,3 +56,4 @@ public:
     sprite.move(delta_x, delta_y);
   }
 };
+#endif

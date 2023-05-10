@@ -9,6 +9,8 @@
 #include <cstdlib>
 #include <string.h>
 using namespace sf;
+#ifndef ENEMY
+#define ENEMY
 class Enemy : public GameEntity {
 public:
   float speed = 0.25;
@@ -67,3 +69,4 @@ public:
   //   window.draw(text);
   // }
 };
+#endif

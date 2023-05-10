@@ -114,7 +114,7 @@ public:
       text.setFont(font); // font is a sf::Font
 
       // set the string to display
-      text.setString("Hello world");
+      text.setString("!");
 
       // set the character size
       text.setCharacterSize(24); // in pixels, not points!

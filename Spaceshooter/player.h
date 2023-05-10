@@ -3,6 +3,7 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Shape.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <string.h>
 using namespace sf;
 class Player : public GameEntity {
@@ -31,6 +32,13 @@ public:
 
     // this->setPosition(delta_x, delta_y);
 
+    sprite.move(delta_x, delta_y);
+  }
+  void movementMouse(Vector2i mousePosition) {
+    float delta_x = mousePosition.x, delta_y = mousePosition.y;
+    // delta_x *= speed;
+    // delta_y *= speed;
+    // this->setPosition(delta_x, delta_y);
     sprite.move(delta_x, delta_y);
   }
 };

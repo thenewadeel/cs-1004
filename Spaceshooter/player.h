@@ -9,12 +9,21 @@
 using namespace sf;
 #ifndef PLAYER
 #define PLAYER
+int MAX_ACTIVE_BULLETS = 100;
 class Player : public GameEntity {
 public:
   float speed = 0.25;
-
+  Bullet bullets[1000];
+  int activeBullets = 0;
   Player() { this->setSprite("img/player_ship.png"); }
-  void fire() {}
+  void fire() {
+    if (activeBullets < MAX_ACTIVE_BULLETS) {
+      Bullet b;
+      b.setHeading(Vector2f(0, -1));
+      b.setPosition(sprite.getPosition());
+      bullets[activeBullets++] = b;
+    }
+  }
   void movement(std::string s) {
     float delta_x = 0, delta_y = 0;
     // if(s=="l")
@@ -36,6 +45,19 @@ public:
     // this->setPosition(delta_x, delta_y);
 
     sprite.move(delta_x, delta_y);
+  }
+  void draw(RenderWindow &window, bool drawBounds = false) {
+    for (int i = 0; i < activeBullets; i++) {
+      bullets[i].tick();
+      bullets[i].draw(window);
+    }
+    window.draw(sprite);
+    RectangleShape healthRect = RectangleShape(Vector2f(health * w / 100, 2));
+    healthRect.setPosition(sprite.getPosition());
+    healthRect.setFillColor(sf::Color::Green);
+    window.draw(healthRect);
+    if (drawBounds)
+      window.draw(boundingRect());
   }
   void movementMouse(Vector2i mousePosition) {
     float delta_x = mousePosition.x, delta_y = mousePosition.y;

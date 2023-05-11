@@ -65,6 +65,7 @@ public:
     return B.intersects(A);
   }
   void setPosition(int x, int y) { sprite.setPosition(x, y); }
+  void setPosition(Vector2f pos) { sprite.setPosition(pos); }
   void setScale(float x, float y) { sprite.setScale(x, y); }
   void destroy() { this->~GameEntity(); }
   void receiveDamage(int damageAmount) {

@@ -4,6 +4,7 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Window/Mouse.hpp>
 #include <iostream>
 #include <time.h>
 using namespace std;
@@ -78,6 +79,9 @@ public:
       if (Keyboard::isKeyPressed(Keyboard::Down) ||
           Keyboard::isKeyPressed(Keyboard::S)) // If down key is pressed
         p->movement("d");                      // player will move downwards
+      if (Keyboard::isKeyPressed(Keyboard::Space) ||
+          Mouse::isButtonPressed(sf::Mouse::Left)) // If space key is pressed
+        p->fire();                                 // player will fire
       if (Keyboard::isKeyPressed(
               Keyboard::Comma))         // If comma (,) key is pressed
         showDebugInfo = !showDebugInfo; // toggle debug messages

@@ -66,6 +66,7 @@ public:
   }
   void setPosition(int x, int y) { sprite.setPosition(x, y); }
   void setPosition(Vector2f pos) { sprite.setPosition(pos); }
+  void setRotation(float angle) { sprite.setRotation(angle); }
   void setScale(float x, float y) { sprite.setScale(x, y); }
   void destroy() { this->~GameEntity(); }
   void receiveDamage(int damageAmount) {
@@ -76,12 +77,15 @@ public:
     }
   }
   bool isAlive() { return health > 0; }
-  void draw(RenderWindow &window, bool drawBounds = false) {
+  void draw(RenderWindow &window, bool drawBounds = false,
+            bool drawHealth = true) {
     window.draw(sprite);
-    RectangleShape healthRect = RectangleShape(Vector2f(health * w / 100, 2));
-    healthRect.setPosition(sprite.getPosition());
-    healthRect.setFillColor(sf::Color::Green);
-    window.draw(healthRect);
+    if (drawHealth) {
+      RectangleShape healthRect = RectangleShape(Vector2f(health * w / 100, 2));
+      healthRect.setPosition(sprite.getPosition());
+      healthRect.setFillColor(sf::Color::Green);
+      window.draw(healthRect);
+    }
     if (drawBounds)
       window.draw(boundingRect());
   }

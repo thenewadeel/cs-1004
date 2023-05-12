@@ -29,6 +29,14 @@ public:
     // sprite.move(((int)(100 * speed * heading.x) % SCREEN_WIDTH) / 100,
     //             ((int)(100 * speed * heading.y) % SCREEN_HEIGHT) / 100);
     Vector2f position = sprite.getPosition();
+    if (position.x < 0)
+      health = 0;
+    if (position.y < 0)
+      health = 0;
+    if (position.x > SCREEN_WIDTH)
+      health = 0;
+    if (position.y > SCREEN_HEIGHT)
+      health = 0;
     // sprite.setPosition((int)sprite.getPosition().x % SCREEN_WIDTH,
     //                    (int)sprite.getPosition().y % SCREEN_HEIGHT);
   }
@@ -54,6 +62,19 @@ public:
     // this->setPosition(delta_x, delta_y);
 
     sprite.move(delta_x, delta_y);
+  }
+  void draw(RenderWindow &window, bool drawBounds = false,
+            bool drawHealth = false) {
+    if (this->isAlive())
+      window.draw(sprite);
+    if (drawHealth) {
+      RectangleShape healthRect = RectangleShape(Vector2f(health * w / 100, 2));
+      healthRect.setPosition(sprite.getPosition());
+      healthRect.setFillColor(sf::Color::Green);
+      window.draw(healthRect);
+    }
+    if (drawBounds)
+      window.draw(boundingRect());
   }
 };
 #endif

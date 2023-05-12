@@ -1,4 +1,5 @@
 #include "bullet.h"
+#include "enemy.h"
 #include "gameEntity.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Drawable.hpp>
@@ -15,10 +16,14 @@ public:
   float speed = 0.25;
   Bullet bullets[1000];
   int activeBullets = 0;
-  Player() { this->setSprite("img/player_ship.png"); }
+  Player() {
+    this->setSprite("img/player_ship.png");
+    this->setScale(0.5, 0.5);
+  }
   void fire() {
     if (activeBullets < MAX_ACTIVE_BULLETS) {
       Bullet b;
+      // b.setSprite("img/bullet.png");
       b.setHeading(Vector2f(0, -1));
       b.setPosition(sprite.getPosition());
       bullets[activeBullets++] = b;
@@ -46,7 +51,26 @@ public:
 
     sprite.move(delta_x, delta_y);
   }
-  void draw(RenderWindow &window, bool drawBounds = false) {
+  void checkEnemies(Enemy enemies[], const int length) {
+    for (int i = 0; i < length; i++) {
+      if (enemies[i].isAlive()) {
+        for (int j = 0; j < activeBullets; j++) {
+          // bullets[i].tick();
+          // bullets[i].draw(window);
+          if (bullets[j].isColliding((GameEntity)enemies[i])) {
+            // cout << "X";
+            enemies[i].receiveDamage(1);
+            bullets[j].receiveDamage(1);
+            // en->draw(window);
+          } else {
+            // en->~GameEntity();
+            // en = NULL;
+          }
+        }
+      }
+    }
+  }
+  void draw(RenderWindow &window, bool drawBounds = true) {
     for (int i = 0; i < activeBullets; i++) {
       bullets[i].tick();
       bullets[i].draw(window);
@@ -54,7 +78,7 @@ public:
     window.draw(sprite);
     RectangleShape healthRect = RectangleShape(Vector2f(health * w / 100, 2));
     healthRect.setPosition(sprite.getPosition());
-    healthRect.setFillColor(sf::Color::Green);
+    healthRect.setFillColor(sf::Color::Red);
     window.draw(healthRect);
     if (drawBounds)
       window.draw(boundingRect());

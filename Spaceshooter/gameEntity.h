@@ -5,6 +5,7 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Shape.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Transform.hpp>
 #include <SFML/Graphics/View.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -15,23 +16,26 @@ using namespace sf;
 int SCREEN_WIDTH = 800;
 int SCREEN_HEIGHT = 600;
 class GameEntity {
-  Texture tex;
+  Texture *tex;
 
 public:
   int health = 100;
   bool collision = false;
   int w, h;
+  float scaleX = 1, scaleY = 1;
   Sprite sprite;
   // int health;
   // Force accumulation - insert here -
-  GameEntity() { setSprite(); }
+  GameEntity() {}
   // ~GameEntity();
   void setSprite(std::string png_path = "img/gameEntity.png") {
-    tex.loadFromFile(png_path);
-    w = tex.getSize().x;
-    h = tex.getSize().y;
+    // tex=Texture a;
+    tex = new Texture();
+    tex->loadFromFile(png_path);
+    w = tex->getSize().x;
+    h = tex->getSize().y;
     sf::IntRect texRect = IntRect(0, 0, w, h);
-    sprite.setTexture(tex);
+    sprite.setTexture(*tex);
     sprite.setTextureRect(texRect);
     sprite.setPosition(240, 150); // TODO . . . set position mech
     sprite.setScale(1, 1);
@@ -55,19 +59,25 @@ public:
   }
   bool isColliding(GameEntity g) {
     // boundingRect().getLocalBounds().intersects(IntRect(g.boundingRect().getSize()));
-    RectangleShape asd = boundingRect();
-    RectangleShape qwe = g.boundingRect();
-    IntRect A = IntRect(asd.getPosition().x, asd.getPosition().y,
-                        asd.getSize().x, asd.getSize().y);
-    IntRect B = IntRect(qwe.getPosition().x, qwe.getPosition().y,
-                        qwe.getSize().x, qwe.getSize().y);
+    RectangleShape current = boundingRect();
+    RectangleShape foreign = g.boundingRect();
+    IntRect A =
+        IntRect(current.getPosition().x, current.getPosition().y,
+                current.getSize().x * scaleX, current.getSize().y * scaleY);
+    IntRect B =
+        IntRect(foreign.getPosition().x, foreign.getPosition().y,
+                foreign.getSize().x * g.scaleX, foreign.getSize().y * g.scaleY);
     collision = B.intersects(A);
     return B.intersects(A);
   }
   void setPosition(int x, int y) { sprite.setPosition(x, y); }
   void setPosition(Vector2f pos) { sprite.setPosition(pos); }
   void setRotation(float angle) { sprite.setRotation(angle); }
-  void setScale(float x, float y) { sprite.setScale(x, y); }
+  void setScale(float x, float y) {
+    sprite.setScale(x, y);
+    scaleX = x;
+    scaleY = y;
+  }
   void destroy() { this->~GameEntity(); }
   void receiveDamage(int damageAmount) {
     this->collision = true;
@@ -77,11 +87,12 @@ public:
     }
   }
   bool isAlive() { return health > 0; }
-  void draw(RenderWindow &window, bool drawBounds = false,
+  void draw(RenderWindow &window, bool drawBounds = true,
             bool drawHealth = true) {
     window.draw(sprite);
     if (drawHealth) {
-      RectangleShape healthRect = RectangleShape(Vector2f(health * w / 100, 2));
+      RectangleShape healthRect =
+          RectangleShape(Vector2f(health * w * scaleX / 100, 2));
       healthRect.setPosition(sprite.getPosition());
       healthRect.setFillColor(sf::Color::Green);
       window.draw(healthRect);

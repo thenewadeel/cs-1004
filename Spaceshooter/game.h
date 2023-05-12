@@ -14,25 +14,27 @@ using namespace std;
 #include "player.h"
 const char title[] = "OOP-Project, Spring-2023";
 using namespace sf;
-
+const int ENEMY_COUNT = 20;
 class Game {
 public:
   Sprite background; // Game background sprite
   Texture bg_texture;
   Player *p; // player
-  Bullet *b;
-  Enemy *en;
+  Enemy *en, enemies[ENEMY_COUNT];
   bool showDebugInfo = false;
   // add other game attributes
 
   Game() {
     p = new Player();
-    b = new Bullet();
     en = new Enemy();
-    b->setHeading(Vector2f(0, -1));
-    b->setPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT);
     en->setPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-
+    for (int i = 0; i < ENEMY_COUNT; i++) {
+      Enemy e;
+      // e.setSprite("img/gameEntity.png");
+      e.setScale(0.5, 0.5);
+      e.setPosition(i * 75, 20);
+      enemies[i] = e;
+    }
     bg_texture.loadFromFile("img/background.jpg");
     background.setTexture(bg_texture);
     background.setScale(1, 1);
@@ -51,12 +53,14 @@ public:
 
     srand(time(0));
     RenderWindow window(VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), title);
-    Clock clock;
+    Clock clock, actionClock;
     float timer = 0;
 
     // GameEntity en;
 
     while (window.isOpen()) {
+      float actionCooldownTime = 250;
+      float actionTime = actionClock.getElapsedTime().asMilliseconds();
       float time = clock.getElapsedTime().asSeconds();
       clock.restart();
       timer += time;
@@ -81,7 +85,12 @@ public:
         p->movement("d");                      // player will move downwards
       if (Keyboard::isKeyPressed(Keyboard::Space) ||
           Mouse::isButtonPressed(sf::Mouse::Left)) // If space key is pressed
-        p->fire();                                 // player will fire
+      {                                            // player will fire
+        if (actionTime > actionCooldownTime) {
+          actionClock.restart();
+          p->fire();
+        }
+      }
       if (Keyboard::isKeyPressed(
               Keyboard::Comma))         // If comma (,) key is pressed
         showDebugInfo = !showDebugInfo; // toggle debug messages
@@ -97,18 +106,29 @@ public:
           sf::Mouse::getPosition(window); // window is a sf::Window
       // p->movementMouse(localPosition);
       p->draw(window);
-      b->tick();
-      b->draw(window);
-      if (en->isAlive()) {
-        if (b->isColliding((GameEntity)*en)) {
-          // cout << "X";
-          en->receiveDamage(1);
+      // b->tick();
+      p->checkEnemies(enemies, ENEMY_COUNT);
+      for (int i = 0; i < ENEMY_COUNT; i++) {
+        // Enemy e;
+        // e.setPosition(i * 5, 20);
+        // enemies[i].draw(window);
+        if (enemies[i].isAlive()) {
+          // window.draw(enemies[i].sprite);
+          enemies[i].draw(window, 1, 1);
+          // cout << enemies[i].sprite.getTexture();
         }
-        en->draw(window);
-      } else {
-        // en->~GameEntity();
-        // en = NULL;
       }
+      // if (en->isAlive()) {
+      //   if (b->isColliding((GameEntity)*en)) {
+      //     // cout << "X";
+      //     en->receiveDamage(1);
+      //     b->receiveDamage(1);
+      //   }
+      //   en->draw(window);
+      // } else {
+      //   // en->~GameEntity();
+      //   // en = NULL;
+      // }
       // window.draw(en.sprite);
       // window.draw(en.boundingRect());
 

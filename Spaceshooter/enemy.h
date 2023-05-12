@@ -12,10 +12,15 @@ using namespace sf;
 #ifndef ENEMY
 #define ENEMY
 class Enemy : public GameEntity {
+  Texture tex;
+
 public:
   float speed = 0.25;
 
-  Enemy() { this->setSprite("img/enemy_1.png"); }
+  Enemy() {
+    this->setSprite("img/enemy_1.png");
+    this->setScale(0.5, 0.5);
+  }
   void fire() {}
   void movement(std::string s) {
     float delta_x = 0, delta_y = 0;
@@ -39,34 +44,17 @@ public:
 
     sprite.move(delta_x, delta_y);
   }
-  // void draw(RenderWindow &window) {
-  //   // (GameEntity) this->draw(window);
-  //   sf::Text text;
-  //   sf::Font font;
-  //   if (!font.loadFromFile("font1.otf")) {
-  //     // error...
-  //   }
-
-  //   text.setFont(font); // font is a sf::Font
-
-  //   // set the string to display
-  //   Int8 a = 12;
-  //   text.setString(std::string("En"));
-
-  //   // set the character size
-  //   text.setCharacterSize(24); // in pixels, not points!
-
-  //   // set the color
-  //   text.setFillColor(sf::Color::Red);
-
-  //   // set the text style
-  //   text.setStyle(sf::Text::Bold);
-
-  //   // inside the main loop, between window.clear() and window.display()
-  //   text.move(sprite.getPosition().x, sprite.getPosition().y);
-  //   window.draw(boundingRect());
+  // void draw(RenderWindow &window, bool drawBounds = false,
+  //           bool drawHealth = false) {
   //   window.draw(sprite);
-  //   window.draw(text);
+  //   if (drawHealth) {
+  //     RectangleShape healthRect = RectangleShape(Vector2f(health * w / 100,
+  //     2)); healthRect.setPosition(sprite.getPosition());
+  //     healthRect.setFillColor(sf::Color::Green);
+  //     window.draw(healthRect);
+  //   }
+  //   if (drawBounds)
+  //     window.draw(boundingRect());
   // }
 };
 #endif

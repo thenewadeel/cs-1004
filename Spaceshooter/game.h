@@ -5,6 +5,7 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Mouse.hpp>
+#include <algorithm>
 #include <iostream>
 #include <time.h>
 using namespace std;
@@ -155,9 +156,8 @@ public:
       // get the local mouse position (relative to a window)
       sf::Vector2i localPosition =
           sf::Mouse::getPosition(window); // window is a sf::Window
-      // p->movementMouse(localPosition);
-      p->draw(window);
-      // b->tick();
+                                          // p->movementMouse(localPosition);
+                                          // b->tick();
       // p->checkEnemies(enemies, ENEMY_COUNT);
       // for (int i = 0; i < ENEMY_COUNT; i++) {
       //   // Enemy e;
@@ -175,11 +175,23 @@ public:
       //     en->receiveDamage(1);
       //     b->receiveDamage(1);
       //   }
+      p->draw(window);
+      if (!en[0].empty() || !en[1].empty() || !en[2].empty() ||
+          !en[3].empty() || !en[4].empty())
+        for (int i = 0; i < ENEMY_ROWS; i++)
+          for (int j = 0; j < en[i].size(); j++) {
+            p->checkEnemy(en[i].at(j));
+            en[i].at(j).draw(window);
+          }
       for (int i = 0; i < ENEMY_ROWS; i++)
-        for (int j = 0; j < en[i].size(); j++) {
-          p->checkEnemy(en[i].at(j));
-          en[i].at(j).draw(window);
-        }
+        en[i].erase(std::remove_if(en[i].begin(), en[i].end(),
+                                   [](Enemy x) { return !x.isAlive(); }),
+                    en[i].end());
+      // if (en[i].at(j).isAlive()){
+
+      // }else{
+
+      // }
       // window.draw(en.sprite);
       // window.draw(en.boundingRect());
 

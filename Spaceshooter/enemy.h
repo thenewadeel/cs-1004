@@ -41,6 +41,20 @@ public:
                             [](GameEntity x) { return !x.isAlive(); }),
              en.end());
   }
+  void checkPlayer(GameEntity &player) {
+    if (isAlive()) {
+      if (this->isColliding(player)) {
+        player.receiveDamage(2);
+        this->receiveDamage(1);
+      }
+      for (int j = 0; j < bombs.size(); j++) {
+        if (bombs.at(j).isColliding(player)) {
+          player.receiveDamage(3);
+          bombs.at(j).receiveDamage(1);
+        }
+      }
+    }
+  }
   void fire() {
     Bullet b;
     b.setSprite("img/enemy_laser.png");
@@ -74,7 +88,7 @@ public:
   void draw(RenderWindow &window, bool drawBounds = true) {
     for (int i = 0; i < bombs.size(); i++) {
       bombs.at(i).tick();
-      bombs.at(i).draw(window);
+      bombs.at(i).draw(window, 0, 0, 0);
     }
     GameEntity::draw(window);
   }

@@ -170,6 +170,7 @@ public:
         for (int j = 0; j < en.size(); j++) {
           p->checkEnemy(en.at(j));
           en.at(j).tick();
+          en.at(j).checkPlayer(*p);
           en.at(j).draw(window);
         }
       } else {

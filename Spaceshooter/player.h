@@ -21,6 +21,7 @@ public:
   Player() {
     this->setSprite("img/player_ship.png");
     this->setScale(0.5, 0.5);
+    this->health = this->maxHealth = 500;
   }
   void fire() {
     if (activeBullets < MAX_ACTIVE_BULLETS) {
@@ -63,6 +64,10 @@ public:
   }
   void checkEnemy(Enemy &enemy) {
     if (enemy.isAlive()) {
+      if (this->isColliding((GameEntity)enemy)) {
+        enemy.receiveDamage(2);
+        this->receiveDamage(1);
+      }
       for (int j = 0; j < activeBullets; j++) {
         // bullets[i].tick();
         // bullets[i].draw(window);

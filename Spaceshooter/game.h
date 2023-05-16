@@ -4,6 +4,7 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Text.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Mouse.hpp>
 #include <algorithm>
@@ -21,16 +22,19 @@ using namespace std;
 const char title[] = "OOP-Project, Spring-2023";
 using namespace sf;
 const int ENEMY_COUNT = 20;
-const int ROW_SPACING = 50;
-const int COL_SPACING = 75;
 const int MAX_ENEMIES_PER_ROW = 8;
 const int ENEMY_ROWS = 5;
 const int GAME_LEVELS = 10;
+const int COL_SPACING = 75;
+const int ROW_SPACING = SCREEN_WIDTH / MAX_ENEMIES_PER_ROW;
 const string arrangement[GAME_LEVELS][ENEMY_ROWS] = {
-    {"i--d-ddddd-i", "i-i-i-i-", "---i---i", "----m----", "-i-i-i-i"},
-    {"i--d-----i", "i-i-i-i-", "--ii--ii", "----i----", "-i-i-i-i"},
-    {"i--d-----i", "i-i-i-i-", "-iii-iii", "----i----", "-i-i-i-i"},
+    {"i--------i", "i-------", "--i-----", "----i----", "-------i"},
+    {"i--------i", "i-------", "--i-----", "----i----", "-------i"},
+    {"i--------i", "i-------", "--i-----", "----i----", "-------i"},
+    {"i--------i", "i-------", "--i-----", "----i----", "-------i"},
     {"i--d-----i", "i-i-i-i-", "iiiiiiii", "----i----", "-i-i-i-i"},
+    {"i--d---i", "i-i-i-i-", "-iii-iii", "--------", "-i-i-i-i"},
+    {"i--d-----i", "i-i-i-i-", "-iii-iii", "----i----", "-i-i-i-i"},
     {"i--d-----i", "i-i-i-i-", "---i---i", "----i----", "-i-i-i-i"}};
 Enemy charToEnemy(char c) {
   switch (c) {
@@ -68,10 +72,11 @@ public:
   Player *p; // player
   Enemy enemies[ENEMY_COUNT];
   std::vector<Enemy> en;
+  int currentGameLevel = 0;
   bool showDebugInfo = false;
   // add other game attributes
   sf::Font font;
-  sf::Text UIText_Score;
+  sf::Text UIText_Score, UIText_Title, UIText_Subtitle;
 
   Game() {
     if (!font.loadFromFile("font1.otf")) {
@@ -84,10 +89,24 @@ public:
     UIText_Score.setStyle(sf::Text::Bold);
     UIText_Score.setPosition(SCREEN_WIDTH - 120, SCREEN_HEIGHT - 40);
 
+    UIText_Title.setFont(font);        // font is a sf::Font
+    UIText_Title.setCharacterSize(60); // in pixels, not points!
+    UIText_Title.setFillColor(sf::Color::Red);
+    UIText_Title.setOutlineColor(sf::Color::White);
+    UIText_Title.setOutlineThickness(5);
+    UIText_Title.setStyle(sf::Text::Bold);
+    UIText_Title.setPosition(SCREEN_WIDTH / 6, SCREEN_HEIGHT / 3);
+
+    UIText_Subtitle.setFont(font);        // font is a sf::Font
+    UIText_Subtitle.setCharacterSize(24); // in pixels, not points!
+    UIText_Subtitle.setFillColor(sf::Color::Red);
+    UIText_Subtitle.setStyle(sf::Text::Bold);
+    UIText_Subtitle.setPosition(SCREEN_WIDTH / 6, 60 + SCREEN_HEIGHT / 3);
+
     p = new Player();
     for (int i = 0; i < ENEMY_ROWS; i++) {
       std::vector<Enemy> line =
-          decodeRowString(arrangement[0][i], 0, COL_SPACING * i);
+          decodeRowString(arrangement[currentGameLevel][i], 0, COL_SPACING * i);
       en.insert(en.end(), line.begin(), line.end());
     }
     bg_texture.loadFromFile("img/background.jpg");
@@ -112,11 +131,17 @@ public:
     // Player x;
     // x.draw(window);
   }
+  void announce(RenderWindow &window, string title, string subtitle = "") {
+    UIText_Title.setString(title);
+    UIText_Subtitle.setString(subtitle);
+    window.draw(UIText_Title);
+    window.draw(UIText_Subtitle);
+  }
   void start_game() {
 
     srand(time(0));
     RenderWindow window(VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), title);
-    Clock clock, actionClock;
+    Clock clock, actionClock, waitClock;
     float timer = 0;
 
     while (window.isOpen()) {
@@ -174,7 +199,15 @@ public:
           en.at(j).draw(window);
         }
       } else {
-        p->health = 999;
+        announce(window, "Stage Clear!!", "U did it");
+        currentGameLevel++;
+        // float waitTime = waitClock.getElapsedTime().asMilliseconds();
+        en.clear();
+        for (int i = 0; i < ENEMY_ROWS; i++) {
+          std::vector<Enemy> line = decodeRowString(
+              arrangement[currentGameLevel][i], 0, COL_SPACING * i);
+          en.insert(en.end(), line.begin(), line.end());
+        }
       }
       // for (int i = 0; i < ENEMY_ROWS; i++)
       en.erase(std::remove_if(en.begin(), en.end(),

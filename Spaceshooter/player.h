@@ -27,7 +27,8 @@ public:
       Bullet b;
       // b.setSprite("img/bullet.png");
       b.setHeading(Vector2f(0, -1));
-      b.setPosition(sprite.getPosition());
+      b.setPosition(sprite.getPosition().x + (w * scaleX / 3),
+                    sprite.getPosition().y + (h * scaleY / 3));
       bullets[activeBullets++] = b;
     }
   }

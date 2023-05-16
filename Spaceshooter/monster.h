@@ -20,6 +20,7 @@ public:
   Monster() {
     this->setSprite("img/monster1.png");
     this->setScale(0.5, 0.5);
+    this->health = this->maxHealth = 500;
   }
   void fire() {}
   void movement(std::string s) {

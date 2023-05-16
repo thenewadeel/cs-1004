@@ -23,6 +23,7 @@ public:
   int health = 100, maxHealth = 100;
   bool collision = false;
   int w, h;
+  float scoreMultiplier = 1;
   float scaleX = 1, scaleY = 1;
   Sprite sprite;
   // int health;

@@ -3,10 +3,12 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Mouse.hpp>
 #include <algorithm>
 #include <iostream>
+#include <string>
 #include <time.h>
 using namespace std;
 #include "bullet.h"
@@ -68,8 +70,14 @@ public:
   std::vector<Enemy> en;
   bool showDebugInfo = false;
   // add other game attributes
+  sf::Font font;
 
   Game() {
+    if (!font.loadFromFile("font1.otf")) {
+      // error...
+      cout << "ERR loading font";
+    }
+
     p = new Player();
     for (int i = 0; i < ENEMY_ROWS; i++) {
       std::vector<Enemy> line =
@@ -85,12 +93,17 @@ public:
       cout << str;
     }
   }
+  void paintUI(RenderWindow &window) {
+    sf::Text text;
+    text.setFont(font); // font is a sf::Font
+    text.setString("Score" + std::to_string(p->score));
+    text.setCharacterSize(24); // in pixels, not points!
+    text.setFillColor(sf::Color::Red);
+    text.setStyle(sf::Text::Bold);
+    text.setPosition(SCREEN_WIDTH - 120, SCREEN_HEIGHT - 40);
+    window.draw(text);
+  }
   void start_game() {
-    sf::Font font;
-    if (!font.loadFromFile("font1.otf")) {
-      // error...
-      cout << "ERR loading font";
-    }
 
     srand(time(0));
     RenderWindow window(VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), title);
@@ -144,26 +157,22 @@ public:
           sf::Mouse::getPosition(window); // window is a sf::Window
 
       p->draw(window);
-      if (!en.empty())
+      if (!en.empty()) {
         for (int j = 0; j < en.size(); j++) {
           p->checkEnemy(en.at(j));
+          en.at(j).tick();
           en.at(j).draw(window);
         }
+      } else {
+        p->health = 999;
+      }
       // for (int i = 0; i < ENEMY_ROWS; i++)
       en.erase(std::remove_if(en.begin(), en.end(),
                               [](Enemy x) { return !x.isAlive(); }),
                en.end());
 
-      sf::Text text;
-      text.setFont(font); // font is a sf::Font
-      text.setString("!");
-      text.setCharacterSize(24); // in pixels, not points!
-      text.setFillColor(sf::Color::Red);
-      text.setStyle(sf::Text::Bold);
-      text.move(localPosition.x, localPosition.y);
-      window.draw(text);
-
       // TODO:  Draw main game UI
+      paintUI(window);
       window.display(); // Displying all the sprites
     }
   }

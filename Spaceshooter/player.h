@@ -18,6 +18,7 @@ public:
   float speed = 0.25;
   Bullet bullets[1000];
   int activeBullets = 0;
+  int score = 0;
   Player() {
     this->setSprite("img/player_ship.png");
     this->setScale(0.5, 0.5);
@@ -75,6 +76,7 @@ public:
           // cout << "X";
           enemy.receiveDamage(1);
           bullets[j].receiveDamage(1);
+          score += enemy.scoreMultiplier * 1;
           // en->draw(window);
         } else {
           // en->~GameEntity();

@@ -18,24 +18,44 @@ using namespace std;
 const char title[] = "OOP-Project, Spring-2023";
 using namespace sf;
 const int ENEMY_COUNT = 20;
-const string arrangement[2][4] = {
-    {"m-m-m-m-", "i-i-i-i-", "---i---i", "mm--mm--"}, {"E", "F", "G", "H"}};
-Enemy *decodeRowString(string str) {
-  Enemy enemies[8];
+const int ROW_SPACING = 50;
+const int COL_SPACING = 75;
+const int MAX_ENEMIES_PER_ROW = 8;
+const int ENEMY_ROWS = 5;
+const int GAME_LEVELS = 10;
+const string arrangement[GAME_LEVELS][ENEMY_ROWS] = {
+    {"i--d-----i", "i-i-i-i-", "---i---i", "----i----", "-i-i-i-i"},
+    {"i--d-----i", "i-i-i-i-", "--ii--ii", "----i----", "-i-i-i-i"},
+    {"i--d-----i", "i-i-i-i-", "-iii-iii", "----i----", "-i-i-i-i"},
+    {"i--d-----i", "i-i-i-i-", "iiiiiiii", "----i----", "-i-i-i-i"},
+    {"i--d-----i", "i-i-i-i-", "---i---i", "----i----", "-i-i-i-i"}};
+Enemy charToEnemy(char c) {
+  switch (c) {
+  case 'm':
+    return Monster();
+  case 'd':
+    return Dragon();
+  case 'i':
+    return Invader();
+  default:
+    return Enemy();
+  };
+}
+std::vector<Enemy> decodeRowString(string str, int rowX, int rowY = 20) {
+  cout << "Decoding str:" << str << endl;
+  // Enemy *enemies;
+  std::vector<Enemy> enemies;
   int pushed = 0;
-  for (int i = 0; i < str.length(); i++) {
+  for (int i = 0; i < MAX_ENEMIES_PER_ROW; i++) {
     bool skipSlot = false;
-    Enemy *en;
-    switch (str[i]) {
-    case 'm':
-      en = new Monster();
-    default:
-      break;
-    }
-    if (!skipSlot) {
-      enemies[pushed] = *en;
+    Enemy en;
+    if (str[i] != '-') {
+      en = charToEnemy(str[i]);
+      en.setPosition(rowX + ROW_SPACING * i, rowY);
+      enemies.push_back(en);
     }
   }
+  cout << "Returning:" << str << endl;
   return enemies;
 };
 class Game {
@@ -43,19 +63,22 @@ public:
   Sprite background; // Game background sprite
   Texture bg_texture;
   Player *p; // player
-  Enemy *en, enemies[ENEMY_COUNT];
+  Enemy enemies[ENEMY_COUNT];
+  std::vector<Enemy> en[ENEMY_ROWS];
   bool showDebugInfo = false;
   // add other game attributes
 
   Game() {
     cout << arrangement[0][0] << endl;
-    cout << arrangement[0][1] << endl;
-    cout << arrangement[0][2] << endl;
-    cout << arrangement[0][3] << endl;
+    // cout << arrangement[0][1] << endl;
+    // cout << arrangement[0][2] << endl;
+    // cout << arrangement[0][3] << endl;
     p = new Player();
-    en = new Dragon();
-    en = new Dragon();
-    en->setPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+    // en = new Dragon();
+    // en = new Enemy(charToEnemy('m'));
+    for (int i = 0; i < ENEMY_ROWS; i++)
+      en[i] = decodeRowString(arrangement[0][i], 0, COL_SPACING * i);
+    // en->setPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
     for (int i = 0; i < ENEMY_COUNT; i++) {
       Enemy e;
       // e.setSprite("img/gameEntity.png");
@@ -135,28 +158,28 @@ public:
       // p->movementMouse(localPosition);
       p->draw(window);
       // b->tick();
-      p->checkEnemies(enemies, ENEMY_COUNT);
-      for (int i = 0; i < ENEMY_COUNT; i++) {
-        // Enemy e;
-        // e.setPosition(i * 5, 20);
-        // enemies[i].draw(window);
-        if (enemies[i].isAlive()) {
-          // window.draw(enemies[i].sprite);
-          enemies[i].draw(window, 1, 1);
-          // cout << enemies[i].sprite.getTexture();
-        }
-      }
+      // p->checkEnemies(enemies, ENEMY_COUNT);
+      // for (int i = 0; i < ENEMY_COUNT; i++) {
+      //   // Enemy e;
+      //   // e.setPosition(i * 5, 20);
+      //   // enemies[i].draw(window);
+      //   if (enemies[i].isAlive()) {
+      //     // window.draw(enemies[i].sprite);
+      //     enemies[i].draw(window, 1, 1);
+      //     // cout << enemies[i].sprite.getTexture();
+      //   }
+      // }
       // if (en->isAlive()) {
       //   if (b->isColliding((GameEntity)*en)) {
       //     // cout << "X";
       //     en->receiveDamage(1);
       //     b->receiveDamage(1);
       //   }
-      en->draw(window, 1, 1);
-      // } else {
-      //   // en->~GameEntity();
-      //   // en = NULL;
-      // }
+      for (int i = 0; i < ENEMY_ROWS; i++)
+        for (int j = 0; j < en[i].size(); j++) {
+          p->checkEnemy(en[i].at(j));
+          en[i].at(j).draw(window);
+        }
       // window.draw(en.sprite);
       // window.draw(en.boundingRect());
 

@@ -27,7 +27,7 @@ const int MAX_ENEMIES_PER_ROW = 8;
 const int ENEMY_ROWS = 5;
 const int GAME_LEVELS = 10;
 const string arrangement[GAME_LEVELS][ENEMY_ROWS] = {
-    {"i--d-----i", "i-i-i-i-", "---i---i", "----m----", "-i-i-i-i"},
+    {"i--d-ddddd-i", "i-i-i-i-", "---i---i", "----m----", "-i-i-i-i"},
     {"i--d-----i", "i-i-i-i-", "--ii--ii", "----i----", "-i-i-i-i"},
     {"i--d-----i", "i-i-i-i-", "-iii-iii", "----i----", "-i-i-i-i"},
     {"i--d-----i", "i-i-i-i-", "iiiiiiii", "----i----", "-i-i-i-i"},
@@ -71,12 +71,18 @@ public:
   bool showDebugInfo = false;
   // add other game attributes
   sf::Font font;
+  sf::Text UIText_Score;
 
   Game() {
     if (!font.loadFromFile("font1.otf")) {
       // error...
       cout << "ERR loading font";
     }
+    UIText_Score.setFont(font);        // font is a sf::Font
+    UIText_Score.setCharacterSize(24); // in pixels, not points!
+    UIText_Score.setFillColor(sf::Color::Red);
+    UIText_Score.setStyle(sf::Text::Bold);
+    UIText_Score.setPosition(SCREEN_WIDTH - 120, SCREEN_HEIGHT - 40);
 
     p = new Player();
     for (int i = 0; i < ENEMY_ROWS; i++) {
@@ -94,14 +100,17 @@ public:
     }
   }
   void paintUI(RenderWindow &window) {
-    sf::Text text;
-    text.setFont(font); // font is a sf::Font
-    text.setString("Score" + std::to_string(p->score));
-    text.setCharacterSize(24); // in pixels, not points!
-    text.setFillColor(sf::Color::Red);
-    text.setStyle(sf::Text::Bold);
-    text.setPosition(SCREEN_WIDTH - 120, SCREEN_HEIGHT - 40);
-    window.draw(text);
+
+    UIText_Score.setString("Score" + std::to_string(p->score));
+    window.draw(UIText_Score);
+    Vector2f temp = p->lifeSprite.getPosition();
+    for (int i = 0; i < p->lives; i++) {
+      p->lifeSprite.setPosition(50 + 25 * i, SCREEN_HEIGHT - 30);
+      window.draw(p->lifeSprite);
+    }
+    p->lifeSprite.setPosition(temp);
+    // Player x;
+    // x.draw(window);
   }
   void start_game() {
 
@@ -170,7 +179,8 @@ public:
       en.erase(std::remove_if(en.begin(), en.end(),
                               [](Enemy x) { return !x.isAlive(); }),
                en.end());
-
+      if (p->lives < 0)
+        break;
       // TODO:  Draw main game UI
       paintUI(window);
       window.display(); // Displying all the sprites

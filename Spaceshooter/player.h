@@ -15,14 +15,21 @@ using namespace sf;
 int MAX_ACTIVE_BULLETS = 100;
 class Player : public GameEntity {
 public:
+  Texture lifeSpriteTexture;
+  Sprite lifeSprite;
   float speed = 0.25;
   Bullet bullets[1000];
   int activeBullets = 0;
-  int score = 0;
+  int score = 0, lives = 3;
   Player() {
     this->setSprite("img/player_ship.png");
     this->setScale(0.5, 0.5);
     this->health = this->maxHealth = 500;
+
+    lifeSpriteTexture.loadFromFile("img/player_ship.png");
+    lifeSprite.setTexture(lifeSpriteTexture);
+    lifeSprite.setPosition(50, SCREEN_HEIGHT - 50);
+    lifeSprite.setScale(0.2, 0.2);
   }
   void fire() {
     if (activeBullets < MAX_ACTIVE_BULLETS) {
@@ -63,6 +70,15 @@ public:
       pos.y = SCREEN_HEIGHT - pos.y;
     sprite.setPosition(pos.x, pos.y);
   }
+  void checkDeath() {
+    if (health < 1) {
+      lives--;
+      if (lives >= 0) {
+        sprite.setPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 50);
+        health = maxHealth;
+      }
+    }
+  }
   void checkEnemy(Enemy &enemy) {
     if (enemy.isAlive()) {
       if (this->isColliding((GameEntity)enemy)) {
@@ -84,6 +100,7 @@ public:
         }
       }
     }
+    checkDeath();
   }
   void checkEnemies(Enemy enemies[], const int length) {
     for (int i = 0; i < length; i++) {

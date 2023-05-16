@@ -75,13 +75,7 @@ public:
       bullets[i].tick();
       bullets[i].draw(window);
     }
-    window.draw(sprite);
-    RectangleShape healthRect = RectangleShape(Vector2f(health * w / 100, 2));
-    healthRect.setPosition(sprite.getPosition());
-    healthRect.setFillColor(sf::Color::Red);
-    window.draw(healthRect);
-    if (drawBounds)
-      window.draw(boundingRect());
+    GameEntity::draw(window);
   }
   void movementMouse(Vector2i mousePosition) {
     float delta_x = mousePosition.x, delta_y = mousePosition.y;

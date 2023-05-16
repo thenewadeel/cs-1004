@@ -87,7 +87,7 @@ public:
     }
   }
   bool isAlive() { return health > 0; }
-  void draw(RenderWindow &window, bool drawBounds = true,
+  void draw(RenderWindow &window, bool drawBounds = false,
             bool drawHealth = true) {
     window.draw(sprite);
     if (drawHealth) {

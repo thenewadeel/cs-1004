@@ -66,15 +66,7 @@ public:
   void draw(RenderWindow &window, bool drawBounds = false,
             bool drawHealth = false) {
     if (this->isAlive())
-      window.draw(sprite);
-    if (drawHealth) {
-      RectangleShape healthRect = RectangleShape(Vector2f(health * w / 100, 2));
-      healthRect.setPosition(sprite.getPosition());
-      healthRect.setFillColor(sf::Color::Green);
-      window.draw(healthRect);
-    }
-    if (drawBounds)
-      window.draw(boundingRect());
+      GameEntity::draw(window);
   }
 };
 #endif

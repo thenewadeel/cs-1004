@@ -25,7 +25,7 @@ const int MAX_ENEMIES_PER_ROW = 8;
 const int ENEMY_ROWS = 5;
 const int GAME_LEVELS = 10;
 const string arrangement[GAME_LEVELS][ENEMY_ROWS] = {
-    {"i--d-----i", "i-i-i-i-", "---i---i", "----i----", "-i-i-i-i"},
+    {"i--d-----i", "i-i-i-i-", "---i---i", "----m----", "-i-i-i-i"},
     {"i--d-----i", "i-i-i-i-", "--ii--ii", "----i----", "-i-i-i-i"},
     {"i--d-----i", "i-i-i-i-", "-iii-iii", "----i----", "-i-i-i-i"},
     {"i--d-----i", "i-i-i-i-", "iiiiiiii", "----i----", "-i-i-i-i"},
@@ -65,14 +65,17 @@ public:
   Texture bg_texture;
   Player *p; // player
   Enemy enemies[ENEMY_COUNT];
-  std::vector<Enemy> en[ENEMY_ROWS];
+  std::vector<Enemy> en;
   bool showDebugInfo = false;
   // add other game attributes
 
   Game() {
     p = new Player();
-    for (int i = 0; i < ENEMY_ROWS; i++)
-      en[i] = decodeRowString(arrangement[0][i], 0, COL_SPACING * i);
+    for (int i = 0; i < ENEMY_ROWS; i++) {
+      std::vector<Enemy> line =
+          decodeRowString(arrangement[0][i], 0, COL_SPACING * i);
+      en.insert(en.end(), line.begin(), line.end());
+    }
     bg_texture.loadFromFile("img/background.jpg");
     background.setTexture(bg_texture);
     background.setScale(1, 1);
@@ -141,17 +144,15 @@ public:
           sf::Mouse::getPosition(window); // window is a sf::Window
 
       p->draw(window);
-      if (!en[0].empty() || !en[1].empty() || !en[2].empty() ||
-          !en[3].empty() || !en[4].empty())
-        for (int i = 0; i < ENEMY_ROWS; i++)
-          for (int j = 0; j < en[i].size(); j++) {
-            p->checkEnemy(en[i].at(j));
-            en[i].at(j).draw(window);
-          }
-      for (int i = 0; i < ENEMY_ROWS; i++)
-        en[i].erase(std::remove_if(en[i].begin(), en[i].end(),
-                                   [](Enemy x) { return !x.isAlive(); }),
-                    en[i].end());
+      if (!en.empty())
+        for (int j = 0; j < en.size(); j++) {
+          p->checkEnemy(en.at(j));
+          en.at(j).draw(window);
+        }
+      // for (int i = 0; i < ENEMY_ROWS; i++)
+      en.erase(std::remove_if(en.begin(), en.end(),
+                              [](Enemy x) { return !x.isAlive(); }),
+               en.end());
 
       sf::Text text;
       text.setFont(font); // font is a sf::Font

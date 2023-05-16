@@ -20,6 +20,8 @@ public:
   Dragon() {
     this->setSprite("img/dragon1.png");
     this->setScale(0.5, 0.5);
+    this->health = 1200;
+    this->maxHealth = 1200;
   }
   void fire() {}
   void movement(std::string s) {

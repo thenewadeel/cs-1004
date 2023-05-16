@@ -17,16 +17,22 @@ int SCREEN_WIDTH = 800;
 int SCREEN_HEIGHT = 600;
 class GameEntity {
   Texture *tex;
+  sf::Font font;
 
 public:
-  int health = 100;
+  int health = 100, maxHealth = 100;
   bool collision = false;
   int w, h;
   float scaleX = 1, scaleY = 1;
   Sprite sprite;
   // int health;
   // Force accumulation - insert here -
-  GameEntity() {}
+  GameEntity() {
+    if (!font.loadFromFile("font1.otf")) {
+      // error...
+      // cout << "ERR loading font";
+    }
+  }
   // ~GameEntity();
   void setSprite(std::string png_path = "img/gameEntity.png") {
     // tex=Texture a;
@@ -86,19 +92,38 @@ public:
       // destroy();
     }
   }
+
+  void positionalText(RenderWindow &window) {
+    sf::Text text;
+    text.setFont(font);
+    String pos = "P:";
+    text.setString(pos + std::to_string(sprite.getPosition().x) + ", " +
+                   std::to_string(sprite.getPosition().y));
+    text.setCharacterSize(12); // in pixels, not points!
+    text.setPosition(sprite.getPosition() + Vector2f(w * scaleX, h * scaleY));
+    window.draw(text);
+  }
+
+  RectangleShape healthRect() {
+    RectangleShape healthRect =
+        RectangleShape(Vector2f(health * w * scaleX / maxHealth, 2));
+    healthRect.setPosition(sprite.getPosition());
+    healthRect.setFillColor(sf::Color::Green);
+    return healthRect;
+  }
   bool isAlive() { return health > 0; }
   void draw(RenderWindow &window, bool drawBounds = false,
-            bool drawHealth = true) {
-    window.draw(sprite);
-    if (drawHealth) {
-      RectangleShape healthRect =
-          RectangleShape(Vector2f(health * w * scaleX / 100, 2));
-      healthRect.setPosition(sprite.getPosition());
-      healthRect.setFillColor(sf::Color::Green);
-      window.draw(healthRect);
+            bool drawHealth = true, bool drawPositionalText = false) {
+    if (isAlive()) {
+      window.draw(sprite);
+      if (drawHealth) {
+        window.draw(healthRect());
+      }
+      if (drawBounds)
+        window.draw(boundingRect());
+      if (drawPositionalText)
+        positionalText(window);
     }
-    if (drawBounds)
-      window.draw(boundingRect());
   }
 };
 #endif

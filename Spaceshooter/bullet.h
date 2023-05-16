@@ -63,10 +63,5 @@ public:
 
     sprite.move(delta_x, delta_y);
   }
-  void draw(RenderWindow &window, bool drawBounds = false,
-            bool drawHealth = false) {
-    if (this->isAlive())
-      GameEntity::draw(window);
-  }
 };
 #endif

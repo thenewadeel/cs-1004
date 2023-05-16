@@ -5,7 +5,9 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Shape.hpp>
+#include <SFML/System/String.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <cmath>
 #include <string.h>
 using namespace sf;
 #ifndef PLAYER
@@ -46,28 +48,38 @@ public:
 
     delta_x *= speed;
     delta_y *= speed;
-
-    // this->setPosition(delta_x, delta_y);
-
     sprite.move(delta_x, delta_y);
+    Vector2f pos = sprite.getPosition();
+    if (pos.x > SCREEN_WIDTH)
+      pos.x = std::fmod(pos.x, SCREEN_WIDTH);
+    if (pos.y > SCREEN_HEIGHT)
+      pos.y = std::fmod(pos.y, SCREEN_HEIGHT);
+    if (pos.x <= 0)
+      pos.x = SCREEN_WIDTH - pos.x;
+    if (pos.y <= 0)
+      pos.y = SCREEN_HEIGHT - pos.y;
+    sprite.setPosition(pos.x, pos.y);
+  }
+  void checkEnemy(Enemy &enemy) {
+    if (enemy.isAlive()) {
+      for (int j = 0; j < activeBullets; j++) {
+        // bullets[i].tick();
+        // bullets[i].draw(window);
+        if (bullets[j].isAlive() && bullets[j].isColliding((GameEntity)enemy)) {
+          // cout << "X";
+          enemy.receiveDamage(1);
+          bullets[j].receiveDamage(1);
+          // en->draw(window);
+        } else {
+          // en->~GameEntity();
+          // en = NULL;
+        }
+      }
+    }
   }
   void checkEnemies(Enemy enemies[], const int length) {
     for (int i = 0; i < length; i++) {
-      if (enemies[i].isAlive()) {
-        for (int j = 0; j < activeBullets; j++) {
-          // bullets[i].tick();
-          // bullets[i].draw(window);
-          if (bullets[j].isColliding((GameEntity)enemies[i])) {
-            // cout << "X";
-            enemies[i].receiveDamage(1);
-            bullets[j].receiveDamage(1);
-            // en->draw(window);
-          } else {
-            // en->~GameEntity();
-            // en = NULL;
-          }
-        }
-      }
+      checkEnemy(enemies[i]);
     }
   }
   void draw(RenderWindow &window, bool drawBounds = true) {

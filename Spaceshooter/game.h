@@ -9,12 +9,35 @@
 #include <time.h>
 using namespace std;
 #include "bullet.h"
+#include "dragon.h"
 #include "enemy.h"
 #include "gameEntity.h"
+#include "invader.h"
+#include "monster.h"
 #include "player.h"
 const char title[] = "OOP-Project, Spring-2023";
 using namespace sf;
 const int ENEMY_COUNT = 20;
+const string arrangement[2][4] = {
+    {"m-m-m-m-", "i-i-i-i-", "---i---i", "mm--mm--"}, {"E", "F", "G", "H"}};
+Enemy *decodeRowString(string str) {
+  Enemy enemies[8];
+  int pushed = 0;
+  for (int i = 0; i < str.length(); i++) {
+    bool skipSlot = false;
+    Enemy *en;
+    switch (str[i]) {
+    case 'm':
+      en = new Monster();
+    default:
+      break;
+    }
+    if (!skipSlot) {
+      enemies[pushed] = *en;
+    }
+  }
+  return enemies;
+};
 class Game {
 public:
   Sprite background; // Game background sprite
@@ -25,8 +48,13 @@ public:
   // add other game attributes
 
   Game() {
+    cout << arrangement[0][0] << endl;
+    cout << arrangement[0][1] << endl;
+    cout << arrangement[0][2] << endl;
+    cout << arrangement[0][3] << endl;
     p = new Player();
-    en = new Enemy();
+    en = new Dragon();
+    en = new Dragon();
     en->setPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
     for (int i = 0; i < ENEMY_COUNT; i++) {
       Enemy e;
@@ -124,7 +152,7 @@ public:
       //     en->receiveDamage(1);
       //     b->receiveDamage(1);
       //   }
-      //   en->draw(window);
+      en->draw(window, 1, 1);
       // } else {
       //   // en->~GameEntity();
       //   // en = NULL;

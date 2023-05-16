@@ -70,23 +70,9 @@ public:
   // add other game attributes
 
   Game() {
-    cout << arrangement[0][0] << endl;
-    // cout << arrangement[0][1] << endl;
-    // cout << arrangement[0][2] << endl;
-    // cout << arrangement[0][3] << endl;
     p = new Player();
-    // en = new Dragon();
-    // en = new Enemy(charToEnemy('m'));
     for (int i = 0; i < ENEMY_ROWS; i++)
       en[i] = decodeRowString(arrangement[0][i], 0, COL_SPACING * i);
-    // en->setPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-    for (int i = 0; i < ENEMY_COUNT; i++) {
-      Enemy e;
-      // e.setSprite("img/gameEntity.png");
-      e.setScale(0.5, 0.5);
-      e.setPosition(i * 75, 20);
-      enemies[i] = e;
-    }
     bg_texture.loadFromFile("img/background.jpg");
     background.setTexture(bg_texture);
     background.setScale(1, 1);
@@ -108,15 +94,12 @@ public:
     Clock clock, actionClock;
     float timer = 0;
 
-    // GameEntity en;
-
     while (window.isOpen()) {
       float actionCooldownTime = 250;
       float actionTime = actionClock.getElapsedTime().asMilliseconds();
       float time = clock.getElapsedTime().asSeconds();
       clock.restart();
       timer += time;
-      // cout<<time<<endl;
       Event e;
       while (window.pollEvent(e)) {
         if (e.type == Event::Closed) // If cross/close is clicked/pressed
@@ -156,25 +139,7 @@ public:
       // get the local mouse position (relative to a window)
       sf::Vector2i localPosition =
           sf::Mouse::getPosition(window); // window is a sf::Window
-                                          // p->movementMouse(localPosition);
-                                          // b->tick();
-      // p->checkEnemies(enemies, ENEMY_COUNT);
-      // for (int i = 0; i < ENEMY_COUNT; i++) {
-      //   // Enemy e;
-      //   // e.setPosition(i * 5, 20);
-      //   // enemies[i].draw(window);
-      //   if (enemies[i].isAlive()) {
-      //     // window.draw(enemies[i].sprite);
-      //     enemies[i].draw(window, 1, 1);
-      //     // cout << enemies[i].sprite.getTexture();
-      //   }
-      // }
-      // if (en->isAlive()) {
-      //   if (b->isColliding((GameEntity)*en)) {
-      //     // cout << "X";
-      //     en->receiveDamage(1);
-      //     b->receiveDamage(1);
-      //   }
+
       p->draw(window);
       if (!en[0].empty() || !en[1].empty() || !en[2].empty() ||
           !en[3].empty() || !en[4].empty())
@@ -187,34 +152,17 @@ public:
         en[i].erase(std::remove_if(en[i].begin(), en[i].end(),
                                    [](Enemy x) { return !x.isAlive(); }),
                     en[i].end());
-      // if (en[i].at(j).isAlive()){
-
-      // }else{
-
-      // }
-      // window.draw(en.sprite);
-      // window.draw(en.boundingRect());
 
       sf::Text text;
-
-      // select the font
       text.setFont(font); // font is a sf::Font
-
-      // set the string to display
       text.setString("!");
-
-      // set the character size
       text.setCharacterSize(24); // in pixels, not points!
-
-      // set the color
       text.setFillColor(sf::Color::Red);
-
-      // set the text style
       text.setStyle(sf::Text::Bold);
-
-      // inside the main loop, between window.clear() and window.display()
       text.move(localPosition.x, localPosition.y);
       window.draw(text);
+
+      // TODO:  Draw main game UI
       window.display(); // Displying all the sprites
     }
   }

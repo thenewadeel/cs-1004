@@ -11,7 +11,7 @@ using namespace sf;
 #define BULLET
 class Bullet : public GameEntity {
 public:
-  float speed = 0.1;
+  float speed = 0.3;
   float decayRate = 0.9;
   Vector2f heading;
   Bullet() {

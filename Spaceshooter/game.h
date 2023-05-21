@@ -49,7 +49,7 @@ Enemy charToEnemy(char c) {
   };
 }
 std::vector<Enemy> decodeRowString(string str, int rowX, int rowY = 20) {
-  cout << "Decoding str:" << str << endl;
+  // cout << "Decoding str:" << str << endl;
   // Enemy *enemies;
   std::vector<Enemy> enemies;
   int pushed = 0;
@@ -62,7 +62,7 @@ std::vector<Enemy> decodeRowString(string str, int rowX, int rowY = 20) {
       enemies.push_back(en);
     }
   }
-  cout << "Returning:" << str << endl;
+  // cout << "Returning:" << str << endl;
   return enemies;
 };
 class Game {

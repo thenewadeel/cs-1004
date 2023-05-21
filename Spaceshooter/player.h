@@ -17,7 +17,7 @@ class Player : public GameEntity {
 public:
   Texture lifeSpriteTexture;
   Sprite lifeSprite;
-  float speed = 0.25;
+  float speed = 0.6;
   Bullet bullets[1000];
   int activeBullets = 0;
   int score = 0, lives = 3;
